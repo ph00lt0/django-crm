@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Accounting - {% block title %}{% endblock %}</title>
+</head>
+<body>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<nav>
+    <ul>
+        <li>
+            <a href="{% url 'accounting:index' %}">Dashboard</a>
+        </li>
+
+        <li>Relations
+            <ul>
+                <li>
+                    <a href="">Clients</a>
+                </li>
+                <li>
+                    <a href="">Vendors</a>
+                </li>
+            </ul>
+        </li>
+
+        <li>Transaction
+            <ul>
+                 <li>
+                    <a href="">Invoices</a>
+                </li>
+                <li>
+                    <a href="">Bills</a>
+                </li>
+            </ul>
+        </li>
+
+        <li>Administration
+            <ul>
+                <li>
+                    <a href="">Account</a>
+                </li>
+                <li>
+                    <a href="">Company</a>
+                </li>
+                <li>
+                    <a href="">Banking</a>
+                </li>
+                <li>
+                    <a href="">Items</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Delete Account</title>
+</head>
+<body>
+   <h1>Delete Account</h1>
+   <hr />
+   <form action="{% url 'login:delete_account'%}" method="POST">
+      {% csrf_token %}
+      <input type="password" name="password" placeholder="Password">
+      <br />
+      <input type="text" name="confirms_deletion" placeholder="TYPE DELETE">
+      <br />
+      <button>Submit</button>
+   </form>
+   <hr />
+</body>
+</html>

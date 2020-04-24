@@ -1,0 +1,12 @@
+{% extends "accounting/base.html" %}
+
+{% block title %}
+    Clients
+{% endblock %}
+
+
+{% block content %}
+    {% for client in clients %}
+        <p>{{ client.name }}</p>
+    {% endfor %}
+{% endblock %}

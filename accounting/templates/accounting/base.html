@@ -19,6 +19,11 @@
 </ul>
 {% endif %}
 <nav>
+    <li>
+        <a href="{% url 'login:logout' %}">Log out</a>
+    </li>
+</nav>
+<aside>
     <ul>
         <li>
             <a href="{% url 'accounting:index' %}">Dashboard</a>
@@ -63,7 +68,7 @@
             </ul>
         </li>
     </ul>
-</nav>
+</aside>
 
 <main>
     {% block content %}

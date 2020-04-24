@@ -71,14 +71,18 @@ def client_create(request):
     return HttpResponseRedirect(reverse('accounting:clients'))
 
 
+# Company
 @login_required()
 @profile_completed
 def company_create(request):
     if request.method == "GET":
+        if hasattr(request.user, 'employee'):
+            messages.add_message(request, messages.INFO, F"You already have a company.")
+            return HttpResponseRedirect(reverse('accounting:clients'))
         return render(request, 'accounting/company_create.html')
 
     if not request.method == "POST":
-        return HttpResponse(status=405)
+        return HttpResponse("Method not allowed", status=405)
 
     # todo add try catch
     with transaction.atomic():

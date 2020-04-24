@@ -6,10 +6,6 @@
 
 
 {% block content %}
-    {% for client in clients %}
-        <p>{{ client.name }}</p>
-    {% endfor %}
-
     <section>
         <form method="POST" action="{% url 'accounting:company_create' %}">
             {% csrf_token %}

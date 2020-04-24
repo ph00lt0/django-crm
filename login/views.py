@@ -61,7 +61,7 @@ def sign_up_two(request):
         user.first_name = request.POST['first_name']
         user.save()
 
-        return HttpResponseRedirect(reverse('accounting:index'))
+        return HttpResponseRedirect(reverse('accounting:company_create'))
 
     return render(request, 'login/sign_up_two.html')
 

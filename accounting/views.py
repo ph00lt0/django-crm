@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import transaction
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 
@@ -34,6 +34,19 @@ def clients(request):
     }
 
     return render(request, 'accounting/clients.html', context)
+
+
+@login_required()
+@employee_check
+@profile_completed
+def client(request, uuid):
+    client_item = get_object_or_404(Client, uuid=uuid)
+
+    context = {
+        'client': client_item
+    }
+
+    return render(request, 'accounting/client.html', context)
 
 
 @login_required()

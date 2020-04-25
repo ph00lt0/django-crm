@@ -1,0 +1,22 @@
+{% extends "accounting/base.html" %}
+
+{% block title %}
+    Invoices
+{% endblock %}
+
+
+{% block content %}
+    {% for invoice in invoices %}
+{#        <a href="{% url "accounting:client" invoice.uuid%}">  invoice instead of client#}
+            <p>{{ invoice.name }}</p>
+        </a>
+    {% endfor %}
+
+    <section>
+        <form method="POST" action="{% url 'accounting:invoice_create' %}">
+            {% csrf_token %}
+            <input type="text" name="reference" placeholder="Reference">
+            <button>Create</button>
+        </form>
+    </section>
+{% endblock %}

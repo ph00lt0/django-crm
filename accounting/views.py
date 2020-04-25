@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 
 from .models import Client, ClientDetail, Company, CompanyDetail, Employee
-from .utils import employee_check
+from .decorators import employee_check
 
 from login.decorators import profile_completed
 
@@ -22,11 +22,9 @@ def index(request):
 
 # Clients
 @login_required()
+@employee_check
 @profile_completed
 def clients(request):
-    if not employee_check(request):
-        return render(request, 'accounting/clients.html')
-
     company_id = request.user.employee.company_id
 
     client_items = Client.objects.filter(company_id=company_id)
@@ -39,13 +37,11 @@ def clients(request):
 
 
 @login_required()
+@employee_check
 @profile_completed
 def client_create(request):
     if not request.method == "POST":
         return HttpResponse(status=405)
-
-    if not employee_check(request):
-        return HttpResponseRedirect(reverse('accounting:clients'))
 
     # todo add try catch
     with transaction.atomic():

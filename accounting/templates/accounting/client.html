@@ -1,10 +1,24 @@
 {% extends "accounting/base.html" %}
+{% load static %}
 
 {% block title %}
-    Clients
+    {{ client.name }}
 {% endblock %}
 
 
 {% block content %}
-    <p>{{ client.name }}</p>
+    <span data-update-url="{% url 'accounting:client_update' client.uuid %}"></span>
+    <input data-auto-update value="{{ client.name }}" name="name" placeholder="Name"/>
+    <input data-auto-update value="{{ client.address }}" name="address" placeholder="Address"/>
+    <input data-auto-update value="{{ client.zip }}" name="zip" placeholder="Zip"/>
+    <input data-auto-update value="{{ client.city }}" name="city" placeholder="City"/>
+    <input data-auto-update value="{{ client.country }}" name="country" placeholder="Country"/>
+    <input data-auto-update value="{{ client.email }}" name="email" placeholder="Email"/>
+    <input data-auto-update value="{{ client.phone }}" name="phone" placeholder="Phone"/>
+    <input data-auto-update value="{{ client.vat }}" name="vat" placeholder="Vat-ID"/>
+    <input data-auto-update value="{{ client.commerce }}" name="commerce" placeholder="Commerce-ID"/>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static "js/client.js" %}"></script>
 {% endblock %}

@@ -12,7 +12,7 @@
         </a>
     {% endfor %}
 
-    <section>
+    <section class="create">
         <form method="POST" action="{% url 'accounting:client_create' %}">
             {% csrf_token %}
             <input type="text" name="name" placeholder="Name">

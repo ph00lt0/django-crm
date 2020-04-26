@@ -10,7 +10,7 @@ from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Client, ClientDetail, Company, CompanyDetail, Employee
+from .models import Client, ClientDetail, Company, CompanyDetail, Employee, Item
 from .decorators import employee_check
 from .serializers import ClientSerializer
 
@@ -26,7 +26,7 @@ def index(request):
     return render(request, 'accounting/index.html', context)
 
 
-# Clients
+# Client
 @login_required()
 @employee_check
 @profile_completed
@@ -153,3 +153,34 @@ def company_create(request):
 
     messages.add_message(request, messages.SUCCESS, F"Created company.")
     return HttpResponseRedirect(reverse('accounting:clients'))
+
+
+# Item
+@login_required()
+@employee_check
+@profile_completed
+def items(request):
+    item_items = Item.objects.filter(company_id=request.user.employee.company_id)
+
+    context = {
+        'items': item_items
+    }
+
+    return render(request, 'accounting/items.html', context)
+
+
+@login_required()
+@employee_check
+@profile_completed
+def item_create(request):
+    if not request.method == "POST":
+        return HttpResponse(status=405)
+
+    Item.objects.create(
+        description=request.POST['description'],
+        default_price=request.POST['price'],
+        company_id=request.user.employee.company_id
+    )
+
+    messages.add_message(request, messages.SUCCESS, F"Created item.")
+    return HttpResponseRedirect(reverse('accounting:items'))

@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "accounting/base.html" %}
 
-</body>
-</html>
+{% block title %}
+    Items
+{% endblock %}
+
+{% block content %}
+    {% for item in items %}
+        <p>{{ item.description }}</p>
+    {% endfor %}
+
+    <section class="create">
+        <form method="POST" action="{% url 'accounting:item_create' %}">
+            {% csrf_token %}
+            <input type="text" name="description" placeholder="Description">
+            <input type="number" name="price" placeholder="Default price">
+            <button>Create</button>
+        </form>
+    </section>
+{% endblock %}

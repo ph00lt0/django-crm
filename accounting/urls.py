@@ -18,5 +18,6 @@ urlpatterns = [
       path('items', views.items, name='items'),
       path('items/create', views.item_create, name='item_create'),
 
-      path('invoices', views.invoices, name='invoices')
+      path('invoices', views.invoices, name='invoices'),
+      path('invoices/create', views.invoice_create, name='invoice_create'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -5,6 +5,8 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 
+import json
+
 from rest_framework.decorators import api_view
 from rest_framework import serializers
 from rest_framework.response import Response
@@ -190,11 +192,14 @@ def invoices(request):
     client_items = Client.objects.filter(company=company)
     invoice_items = Invoice.objects.filter(client__in=client_items.values_list('pk'))
     currency_items = Currency.objects.all()
+    item_items = Item.objects.filter(company=company)
 
     context = {
         'invoices': invoice_items,
         'default_currency': company.default_currency.pk,
+        'clients': client_items,
         'currencies': currency_items,
+        'items': item_items,
     }
 
     return render(request, 'accounting/invoices.html', context)
@@ -202,24 +207,43 @@ def invoices(request):
 
 @login_required()
 @employee_check
-@profile_completed
+@api_view(['POST'])
 def invoice_create(request):
-    if not request.method == "POST":
-        return HttpResponse(status=405)
+    client_uuid = request.data['client']
+    currency_pk = request.data['currency']
+    reference = request.data['reference']
+    item_json = request.data['items']
 
-    client_uuid = request.POST['client']
+    if not client_uuid or not currency_pk or not reference or not item_json:
+        return Response({'status': 'ERROR', 'message': 'Fields missing'}, status=status.HTTP_400_BAD_REQUEST)
+
     client_item = get_object_or_404(Client, uuid=client_uuid)
+    currency_item = get_object_or_404(Currency, pk=currency_pk)
     if not client_item.company == request.user.employee.company:
-        return HttpResponse(status=404)
+        return Response({'status': 'ERROR', 'message': 'Client not found'}, status=status.HTTP_404_NOT_FOUND)
 
     # todo add try catch
     with transaction.atomic():
         Invoice.objects.create(
-            client=client_item.pk,
-            reference=request.POST['reference'],
-            currency=request.POST['currency'],
+            client=client_item,
+            reference=reference,
+            currency=currency_item,
         )
-        client = Client.objects.latest('id')
+        invoice = Invoice.objects.latest('id')
+        item_items = json.loads(item_json)
+        print(item_items)
+        for key in item_items:
+            item_item = get_object_or_404(Item, uuid=key)
+            if not item_item.company == request.user.employee.company:
+                return Response({'status': 'ERROR', 'message': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    messages.add_message(request, messages.SUCCESS, F"Created invoice.")
-    return HttpResponseRedirect(reverse('accounting:invoices'))
+            InvoiceItem.objects.create(
+                invoice=invoice,
+                item=item_item,
+                price=item_items[key]['price'],
+                amount=item_items[key]['amount'],
+            )
+            print(item_items[key]['amount'])
+
+    return Response({'status': 'SUCCESS', 'message': 'Invoice created'}, status=status.HTTP_200_OK)
+

@@ -7,23 +7,57 @@
 
 {% block content %}
     {% for invoice in invoices %}
-{#        <a href="{% url "accounting:client" invoice.uuid%}">  invoice instead of client#}
-            <p>{{ invoice.reference }}</p>
-{#        </a>#}
+        {#        <a href="{% url "accounting:client" invoice.uuid%}">  invoice instead of client#}
+        <p>{{ invoice.reference }}</p>
+        {#        </a>#}
     {% endfor %}
 
-    <section>
-        <form method="POST" action="{% url 'accounting:invoices' %}">
-            {% csrf_token %}
-            <input type="text" name="reference" placeholder="Reference">
-            <select name="currency">
-                {% for currency in currencies %}
-                    <option value="{{ currency.pk }}" {% if currency.pk == default_currency %} selected {% endif %}>
-                        {{ currency.name }}
-                    </option>
-                {% endfor %}
-            </select>
-            <button>Create</button>
-        </form>
+    <section data-create-form>
+        <span data-url="{% url 'accounting:invoice_create' %}"></span>
+        {% csrf_token %}
+        <select data-field name="client">
+            <option disabled hidden selected>Select client</option>
+            {% for client in clients %}
+                <option value="{{ client.uuid }}">
+                    {{ client.name }}s
+                </option>
+            {% endfor %}
+        </select>
+        <input data-field type="text" name="reference" placeholder="Reference">
+        <select data-field name="currency">
+            {% for currency in currencies %}
+                <option value="{{ currency.pk }}" {% if currency.pk == default_currency %} selected {% endif %}>
+                    {{ currency.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <div data-items>
+            <div data-item>
+                <select data-item-pk>
+                    {% for item in items %}
+                        <option value="{{ item.uuid }}" data-price="{{ item.default_price }}">
+                            {{ item.description }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <input type="number" data-item-amount placeholder="Amount">
+                <input type="number" data-item-price placeholder="price">
+            </div>
+        </div>
+        <button data-add-item>Add item</button>
+        <template data-item-template>
+            <div data-item>
+                <select data-item-pk>
+                    {% for item in items %}
+                        <option value="{{ item.uuid }}" data-price="{{ item.default_price }}">
+                            {{ item.description }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <input type="number" data-item-amount placeholder="Amount">
+                <input type="number" data-item-price placeholder="price">
+            </div>
+        </template>
+        <button data-submit>Create</button>
     </section>
 {% endblock %}

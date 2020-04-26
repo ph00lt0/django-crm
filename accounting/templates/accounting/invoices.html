@@ -16,7 +16,13 @@
         <form method="POST" action="{% url 'accounting:invoices' %}">
             {% csrf_token %}
             <input type="text" name="reference" placeholder="Reference">
-            <input type="text" name="currency" placeholder="Reference">
+            <select name="currency">
+                {% for currency in currencies %}
+                    <option value="{{ currency.pk }}" {% if currency.pk == default_currency %} selected {% endif %}>
+                        {{ currency.name }}
+                    </option>
+                {% endfor %}
+            </select>
             <button>Create</button>
         </form>
     </section>

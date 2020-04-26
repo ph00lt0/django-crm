@@ -10,7 +10,7 @@ from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Client, ClientDetail, Company, CompanyDetail, Employee, Item
+from .models import Currency, Client, ClientDetail, Company, CompanyDetail, Employee, Item, Invoice, InvoiceItem
 from .decorators import employee_check
 from .serializers import ClientSerializer
 
@@ -31,9 +31,9 @@ def index(request):
 @employee_check
 @profile_completed
 def clients(request):
-    company_id = request.user.employee.company_id
+    company = request.user.employee.company
 
-    client_items = Client.objects.filter(company_id=company_id)
+    client_items = Client.objects.filter(company=company)
 
     context = {
         'clients': client_items
@@ -47,10 +47,10 @@ def clients(request):
 @profile_completed
 def client(request, uuid):
     client_item = get_object_or_404(Client, uuid=uuid)
-    if not client_item.company_id == request.user.employee.company_id:
+    if not client_item.company == request.user.employee.company:
         return HttpResponseRedirect(reverse('accounting:clients'))
 
-    client_details = get_object_or_404(ClientDetail, client_id=client_item.id)
+    client_details = get_object_or_404(ClientDetail, client=client_item)
     client_details.name = client_item.name
     client_details.uuid = client_item.uuid
 
@@ -66,7 +66,7 @@ def client(request, uuid):
 @api_view(['PUT'])
 def client_update(request, uuid):
     client_item = get_object_or_404(Client, uuid=uuid)
-    if not client_item.company_id == request.user.employee.company_id:
+    if not client_item.company == request.user.employee.company:
         return Response({'Updated client'}, status=status.HTTP_404_NOT_FOUND)
 
     client_details = get_object_or_404(ClientDetail, pk=client_item.pk)
@@ -95,11 +95,11 @@ def client_create(request):
     with transaction.atomic():
         Client.objects.create(
             name=request.POST['name'],
-            company_id=request.user.employee.company_id
+            company=request.user.employee.company
         )
-        client_id = Client.objects.latest('id')
+        client = Client.objects.latest('id')
         ClientDetail.objects.create(
-            client_id=client_id,
+            client=client,
             address=request.POST['address'],
             zip=request.POST['zip'],
             city=request.POST['city'],
@@ -133,9 +133,9 @@ def company_create(request):
         Company.objects.create(
             name=request.POST['name'],
         )
-        company_id = Company.objects.latest('id')
+        company = Company.objects.latest('id')
         CompanyDetail.objects.create(
-            company_id=company_id,
+            company=company,
             address=request.POST['address'],
             zip=request.POST['zip'],
             city=request.POST['city'],
@@ -147,7 +147,7 @@ def company_create(request):
             logo=0
         )
         Employee.objects.create(
-            company_id=company_id,
+            company=company,
             user=request.user
         )
 
@@ -160,7 +160,7 @@ def company_create(request):
 @employee_check
 @profile_completed
 def items(request):
-    item_items = Item.objects.filter(company_id=request.user.employee.company_id)
+    item_items = Item.objects.filter(company=request.user.employee.company)
 
     context = {
         'items': item_items
@@ -179,8 +179,52 @@ def item_create(request):
     Item.objects.create(
         description=request.POST['description'],
         default_price=request.POST['price'],
-        company_id=request.user.employee.company_id
+        company=request.user.employee.company
     )
 
     messages.add_message(request, messages.SUCCESS, F"Created item.")
     return HttpResponseRedirect(reverse('accounting:items'))
+
+
+# Invoice
+@login_required()
+@employee_check
+@profile_completed
+def invoices(request):
+    company = request.user.employee.company
+    client_items = Client.objects.filter(company=company)
+    invoice_items = Invoice.objects.filter(client__in=client_items.values_list('pk'))
+    currency_items = Currency.objects.all()
+
+    context = {
+        'invoices': invoice_items,
+        'default_currency': company.default_currency.pk,
+        'currencies': currency_items,
+    }
+
+    return render(request, 'accounting/invoices.html', context)
+
+
+@login_required()
+@employee_check
+@profile_completed
+def invoice_create(request):
+    if not request.method == "POST":
+        return HttpResponse(status=405)
+
+    client_uuid = request.POST['client']
+    client_item = get_object_or_404(Client, uuid=client_uuid)
+    if not client_item.company == request.user.employee.company:
+        return HttpResponse(status=404)
+
+    # todo add try catch
+    with transaction.atomic():
+        Invoice.objects.create(
+            client=client_item.pk,
+            reference=request.POST['reference'],
+            currency=request.POST['currency'],
+        )
+        client = Client.objects.latest('id')
+
+    messages.add_message(request, messages.SUCCESS, F"Created invoice.")
+    return HttpResponseRedirect(reverse('accounting:invoices'))

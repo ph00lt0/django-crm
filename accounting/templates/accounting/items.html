@@ -1,4 +1,5 @@
 {% extends "accounting/base.html" %}
+{% load static %}
 
 {% block title %}
     Items
@@ -9,12 +10,14 @@
         <p>{{ item.description }}</p>
     {% endfor %}
 
-    <section class="create">
-        <form method="POST" action="{% url 'accounting:item_create' %}">
-            {% csrf_token %}
-            <input type="text" name="description" placeholder="Description">
-            <input type="number" name="price" placeholder="Default price">
-            <button>Create</button>
-        </form>
+    <section data-create-form class="create">
+        <span data-url="{% url 'accounting:item_create' %}"></span>
+        <input data-field type="text" name="description" placeholder="Description">
+        <input data-field type="number" name="price" placeholder="Default price">
+        <button data-submit>Create</button>
     </section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static "js/create.js" %}"></script>
 {% endblock %}

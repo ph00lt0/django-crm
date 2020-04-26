@@ -171,19 +171,14 @@ def items(request):
 
 @login_required()
 @employee_check
-@profile_completed
+@api_view(['POST'])
 def item_create(request):
-    if not request.method == "POST":
-        return HttpResponse(status=405)
-
     Item.objects.create(
-        description=request.POST['description'],
-        default_price=request.POST['price'],
+        description=request.data['description'],
+        default_price=request.data['price'],
         company=request.user.employee.company
     )
-
-    messages.add_message(request, messages.SUCCESS, F"Created item.")
-    return HttpResponseRedirect(reverse('accounting:items'))
+    return Response({'status': 'SUCCESS', 'message': 'Item created'}, status=status.HTTP_200_OK)
 
 
 # Invoice

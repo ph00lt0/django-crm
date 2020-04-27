@@ -8,6 +8,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Accounting - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static "library/choices/choices.css" %}">
 </head>
 <body>
 <ul class="messages" data-messages>
@@ -74,6 +75,7 @@
     {% endblock %}
 </main>
 
+<script src="{% static "library/choices/choices.js" %}"></script>
 <script src="{% static "js/app.js" %}"></script>
 <script src="{% static "js/create.js" %}"></script>
 {% block scripts %}

@@ -233,6 +233,7 @@ def invoice_create(request):
         item_items = json.loads(item_json)
         print(item_items)
         for key in item_items:
+            # todo create item if not existing
             item_item = get_object_or_404(Item, uuid=key)
             if not item_item.company == request.user.employee.company:
                 return Response({'status': 'ERROR', 'message': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)

@@ -10,3 +10,6 @@ function addMessage(response) {
     message.innerText = response.message;
     document.querySelector('[data-messages]').prepend(message);
 }
+
+const clientChoice = new Choices('[data-choices-client]', {searchPlaceholderValue: 'Type to search'});
+const firstItemChoice = new Choices('[data-choices-items]', {searchPlaceholderValue: 'Type to search'});

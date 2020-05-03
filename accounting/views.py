@@ -14,7 +14,7 @@ from rest_framework import status
 
 from .models import Currency, Client, ClientDetail, Company, CompanyDetail, Employee, Item, Invoice, InvoiceItem
 from .decorators import employee_check
-from .serializers import ClientSerializer
+from .serializers import InvoiceSerializer
 
 from login.decorators import profile_completed
 

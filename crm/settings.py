@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+
     'login',
     'accounting'
 ]
@@ -125,9 +129,11 @@ STATIC_URL = '/static/'
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.permissions.IsAuthenticated',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ]
+   'DEFAULT_PERMISSION_CLASSES': [
+      'accounting.permissions.IsOwnerOrNoAccess',
+      'rest_framework.permissions.IsAuthenticated',
+   ],
+   # 'DEFAULT_AUTHENTICATION_CLASSES': [
+   #    'rest_framework.authentication.TokenAuthentication',
+   # ]
 }

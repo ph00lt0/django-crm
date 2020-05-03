@@ -1,8 +1,8 @@
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
-
+from .api import Invoices
 
 app_name = 'accounting'
 
@@ -20,4 +20,8 @@ urlpatterns = [
 
       path('invoices', views.invoices, name='invoices'),
       path('invoices/create', views.invoice_create, name='invoice_create'),
+
+      path('api/v1/invoices', Invoices.as_view()),
+      # path('api/v1/invoices/<int:pk>/', InvoiceDetail.as_view()),
+      path('api/v1/rest-auth/', include('rest_auth.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

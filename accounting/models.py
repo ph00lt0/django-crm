@@ -43,7 +43,7 @@ class BankAccount(models.Model):
 class Client(models.Model):
     name = models.CharField(max_length=255)
     uuid = models.UUIDField(unique=True, default=uuid.uuid4)
-    company = models.ForeignKey(Company, on_delete=models.PROTECT)
+    company = models.ForeignKey(Company, related_name='client_details', on_delete=models.PROTECT)
 
 
 class ClientDetail(models.Model):
@@ -89,7 +89,7 @@ class Item(models.Model):
 
 
 class InvoiceItem(models.Model):
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.PROTECT)
+    invoice = models.ForeignKey(Invoice, related_name='invoice_item_invoice', on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, related_name='invoice_item_item', on_delete=models.PROTECT)
     price = models.DecimalField(decimal_places=2, max_digits=20)
     amount = models.IntegerField()

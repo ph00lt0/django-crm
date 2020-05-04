@@ -1,8 +1,13 @@
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework import routers
 from . import views
-from .api import Invoices
+from . import api
+
+
+router = routers.DefaultRouter()
+router.register(r'invoice', api.InvoiceViewSet)
 
 app_name = 'accounting'
 
@@ -21,7 +26,9 @@ urlpatterns = [
       path('invoices', views.invoices, name='invoices'),
       path('invoices/create', views.invoice_create, name='invoice_create'),
 
-      path('api/v1/invoices', Invoices.as_view()),
+      # path('api/v1/invoices', InvoiceViewSet.as_view()),
+      # path('api/v1/invoices/<uuid:uuid>', InvoiceViewSet.as_view()),
       # path('api/v1/invoices/<int:pk>/', InvoiceDetail.as_view()),
       path('api/v1/rest-auth/', include('rest_auth.urls')),
+      path('api/', include(router.urls))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

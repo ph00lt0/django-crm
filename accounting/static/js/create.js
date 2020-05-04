@@ -8,6 +8,15 @@ function post(formData, url) {
     }).then(response => response.json()).catch(error => error.json())
 }
 
+function get(url) {
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+    }).then(response => response.json()).catch(error => error.json())
+}
+
 function create() {
     document.querySelectorAll('[data-create-form]').forEach((form) => {
         watchItems(form);
@@ -24,7 +33,7 @@ function create() {
                 row.querySelectorAll('[data-item]').forEach((item) => {
                     const pk = item.getAttribute('data-value');
                     items[pk] = {};
-                    row.querySelectorAll('[data-item-row-field]').forEach( (field) =>  {
+                    row.querySelectorAll('[data-item-row-field]').forEach((field) => {
                         items[pk][field.getAttribute('name')] = field.value;
                     });
                 });
@@ -46,6 +55,45 @@ function watchItems(form) {
     });
 }
 
+
+function watchTables() {
+    document.querySelectorAll('[data-table]').forEach(async (elm) => {
+        let data = {"data":[ ] };
+        if (elm.hasAttribute('data-url')) {
+            const response = await get(elm.getAttribute('data-url'));
+                    console.log(response);
+
+            if (response.status === "ERROR") return addMessage(response);
+            for (let i = 0; i < response.length; i++) {
+                data.data[i] = [];
+                data.headings = [];
+                for (let key in response[i]) {
+                    data.headings.push(key);
+                    const column = response[i][key];
+                    data.data[i].push(column);
+                }
+            }
+            console.log(data)
+        }
+
+        const config = {
+            data,
+            filters: {
+                    filters: {"Job": ["Assistant", "Manager"]},
+            },
+            columns: [
+                // add uuid to row as attribute for linking to other pages
+                {select: 0, hidden: true, render: function(data, cell, row) {
+                        row.setAttribute('data-row', data);
+                    }
+                }
+            ]
+        };
+        let dataTable = new simpleDatatables.DataTable(elm, config);
+    });
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     create();
+    watchTables();
 });

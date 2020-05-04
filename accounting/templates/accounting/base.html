@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Accounting - {% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static "library/choices/choices.css" %}">
-    <link rel="stylesheet" href="{% static "library/simple-datatables/simple-datatables.css" %}">
+    <link rel="stylesheet" href="https://unpkg.com/vanilla-datatables@1.6.16/dist/vanilla-dataTables.min.css">
 </head>
 <body>
 <ul class="messages" data-messages>
@@ -77,7 +77,7 @@
 </main>
 
 <script src="{% static "library/choices/choices.js" %}"></script>
-<script src="{% static "library/simple-datatables/simple-datatables.js" %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 <script src="{% static "js/app.js" %}"></script>
 <script src="{% static "js/create.js" %}"></script>
 {% block scripts %}

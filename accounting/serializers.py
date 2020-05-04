@@ -9,10 +9,9 @@ class InvoiceClientSerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Item
-        fields = ['description']
+        fields = ['description', 'uuid']
 
 
 class InvoiceItemSerializer(serializers.ModelSerializer):
@@ -24,6 +23,14 @@ class InvoiceItemSerializer(serializers.ModelSerializer):
 
 
 class InvoiceSerializer(serializers.ModelSerializer):
+    client = serializers.CharField(source="client.name")
+
+    class Meta:
+        model = Invoice
+        fields = ['uuid', 'reference', 'client']
+
+
+class InvoiceDetailSerializer(serializers.ModelSerializer):
     items = InvoiceItemSerializer(many=True, label='items')
     client = serializers.CharField(source="client.name")
 
@@ -31,9 +38,9 @@ class InvoiceSerializer(serializers.ModelSerializer):
         model = Invoice
         fields = ['uuid', 'reference', 'client', 'items']
 
-    # def create(self, validated_data):
-    #     item_items = validated_data.pop('items')
-    #     invoice = Invoice.objects.create(**validated_data)
-    #     for item_item in item_items:
-    #         InvoiceItem.objects.create(invoice=invoice, **item_item)
-    #     return invoice
+# def create(self, validated_data):
+#     item_items = validated_data.pop('items')
+#     invoice = Invoice.objects.create(**validated_data)
+#     for item_item in item_items:
+#         InvoiceItem.objects.create(invoice=invoice, **item_item)
+#     return invoice

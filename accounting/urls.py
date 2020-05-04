@@ -6,10 +6,21 @@ from . import views
 from . import api
 
 
-router = routers.DefaultRouter()
-router.register(r'invoice', api.InvoiceViewSet)
+# router = routers.DefaultRouter()
+# router.register(r'invoice', api.InvoiceViewSet, basename='invoice')
 
 app_name = 'accounting'
+
+
+invoice_list = api.InvoiceViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+
+invoice_detail = api.InvoiceViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update'
+})
 
 urlpatterns = [
       path('', views.index, name='index'),
@@ -26,9 +37,10 @@ urlpatterns = [
       path('invoices', views.invoices, name='invoices'),
       path('invoices/create', views.invoice_create, name='invoice_create'),
 
-      # path('api/v1/invoices', InvoiceViewSet.as_view()),
-      # path('api/v1/invoices/<uuid:uuid>', InvoiceViewSet.as_view()),
-      # path('api/v1/invoices/<int:pk>/', InvoiceDetail.as_view()),
       path('api/v1/rest-auth/', include('rest_auth.urls')),
-      path('api/', include(router.urls))
+      path('api/v1/invoice', invoice_list, name='invoice-list'),
+      path('api/v1/invoice/<uuid:uuid>', invoice_detail, name='invoice-detail'),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# urlpatterns += router.urls

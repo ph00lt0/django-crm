@@ -6,11 +6,17 @@
 
 
 {% block content %}
-    {% for invoice in invoices %}
-        {#        <a href="{% url "accounting:client" invoice.uuid%}">  invoice instead of client#}
-        <p>{{ invoice.reference }}</p>
-        {#        </a>#}
-    {% endfor %}
+
+    <table data-table data-url="{% url 'accounting:invoice-list' %}">
+{#    {% for invoice in invoices %}#}
+{#                <a href="{% url "accounting:client" invoice.uuid%}">  invoice instead of client#}
+{#        <tr>#}
+{#            <td>{{ invoice.reference }}</td>#}
+{#        </tr>#}
+{##}
+{#                </a>#}
+{#    {% endfor %}#}
+    </table>
 
     <section data-create-form>
         <span data-url="{% url 'accounting:invoice_create' %}"></span>

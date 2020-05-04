@@ -83,7 +83,7 @@ def client_update(request, uuid):
         client_details.save()
         return Response({'status': 'SUCCESS', 'message': 'Updated client'}, status=status.HTTP_200_OK)
     else:
-        return Response({'status': 'ERROR', 'message': 'Updated client'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'status': 'ERROR', 'message': 'Failed to updated client'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @login_required()

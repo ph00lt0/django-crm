@@ -1,9 +1,7 @@
 function post(formData, url) {
     return fetch(url, {
         method: 'POST',
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken')
-        },
+        headers: {'X-CSRFToken': getCookie('csrftoken')},
         body: formData,
     }).then(response => response.json()).catch(error => error.json())
 }
@@ -11,9 +9,7 @@ function post(formData, url) {
 function get(url) {
     return fetch(url, {
         method: 'GET',
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken')
-        },
+        headers: {'X-CSRFToken': getCookie('csrftoken')},
     }).then(response => response.json()).catch(error => error.json())
 }
 
@@ -56,44 +52,71 @@ function watchItems(form) {
 }
 
 
-function watchTables() {
-    document.querySelectorAll('[data-table]').forEach(async (elm) => {
-        let data = {"data":[ ] };
-        if (elm.hasAttribute('data-url')) {
-            const response = await get(elm.getAttribute('data-url'));
-                    console.log(response);
-
-            if (response.status === "ERROR") return addMessage(response);
-            for (let i = 0; i < response.length; i++) {
-                data.data[i] = [];
-                data.headings = [];
-                for (let key in response[i]) {
-                    data.headings.push(key);
-                    const column = response[i][key];
-                    data.data[i].push(column);
-                }
-            }
-            console.log(data)
+function constructTableData(response) {
+    const data = {"data": []};
+    for (let i = 0; i < response.length; i++) {
+        data.data[i] = [];
+        data.headings = [];
+        for (let key in response[i]) {
+            data.headings.push(key);
+            const column = response[i][key];
+            data.data[i].push(column);
         }
+    }
+    return data;
+}
 
+function initTables() {
+    document.querySelectorAll('[data-table]').forEach(async (elm) => {
+        if (!elm.hasAttribute('data-url')) {
+            return addMessage({'status': 'ERROR', 'message': 'No data url'})
+        }
+        const response = await get(elm.getAttribute('data-url'));
+        if (response.status === "ERROR") return addMessage(response);
+
+        let data = constructTableData(response);
         const config = {
             data,
-            filters: {
-                    filters: {"Job": ["Assistant", "Manager"]},
-            },
+            filters: {},
             columns: [
-                // add uuid to row as attribute for linking to other pages
-                {select: 0, hidden: true, render: function(data, cell, row) {
+                {
+                    // add uuid to row as attribute for linking to other pages
+                    select: 0, hidden: true, render: function (data, cell, row) {
                         row.setAttribute('data-row', data);
                     }
                 }
             ]
         };
         let dataTable = new simpleDatatables.DataTable(elm, config);
+        watchTable(dataTable);
+    });
+}
+
+function watchTable(dataTable) {
+    dataTable.on('datatable.init', () => {
+        makeRowLink(dataTable.table)
+    });
+    dataTable.on('datatable.update', () => {
+        makeRowLink(dataTable.table)
+    });
+    dataTable.on('datatable.sort', () => {
+        makeRowLink(dataTable.table)
+    });
+    dataTable.on('datatable.page', () => {
+        makeRowLink(dataTable.table)
+    });
+}
+
+function makeRowLink(table) {
+    if (!table.hasAttribute('data-row-link-base')) return;
+    table.querySelectorAll('[data-row]').forEach( (row) => {
+        row.addEventListener('click', () => {
+            window.location.href = table.getAttribute('data-row-link-base') + '/' + row.getAttribute('data-row');
+        });
     });
 }
 
 window.addEventListener('DOMContentLoaded', () => {
     create();
-    watchTables();
+    initTables();
 });

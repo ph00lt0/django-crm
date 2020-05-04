@@ -7,7 +7,7 @@
 
 {% block content %}
 
-    <table data-table data-url="{% url 'accounting:invoice-list' %}">
+    <table data-table data-url="{% url 'accounting:invoice-list' %}" data-row-link-base="{{ request.get_full_path }}">
 {#    {% for invoice in invoices %}#}
 {#                <a href="{% url "accounting:client" invoice.uuid%}">  invoice instead of client#}
 {#        <tr>#}

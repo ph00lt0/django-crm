@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="53c90dba-58cb-4648-8b55-d989904313f5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/serializers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounting/static/js/create.js" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/static/js/create.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/static/library/simple-datatables/simple-datatables.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/static/library/simple-datatables/simple-datatables.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/templates/accounting/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/templates/accounting/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounting/templates/accounting/invoices.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/templates/accounting/invoices.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounting/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,7 +20,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/accounting/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
+            <state relative-caret-position="214">
               <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
@@ -83,17 +77,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/invoices.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="7" column="19" lean-forward="true" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/accounting/static/js/create.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="530">
-              <caret line="84" column="67" selection-start-line="84" selection-start-column="67" selection-end-line="84" selection-end-column="67" />
+            <state relative-caret-position="-664">
+              <caret line="9" column="114" lean-forward="true" selection-start-line="9" selection-start-column="114" selection-end-line="9" selection-end-column="114" />
             </state>
           </provider>
         </entry>
@@ -103,6 +88,15 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="276">
               <caret line="12" selection-start-line="12" selection-end-line="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/accounting/static/js/create.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="509">
+              <caret line="113" column="76" selection-start-line="113" selection-start-column="76" selection-end-line="113" selection-end-column="76" />
             </state>
           </provider>
         </entry>
@@ -121,7 +115,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>employee</find>
       <find>employee_check</find>
       <find>static</find>
       <find>TEMPLATE_CONTEXT_PROCESSORS</find>
@@ -151,6 +144,7 @@
       <find>uuid</find>
       <find>InvoiceSerializer</find>
       <find>api</find>
+      <find>error</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -185,17 +179,17 @@
         <option value="$PROJECT_DIR$/accounting/static/library/choices/choices.js" />
         <option value="$PROJECT_DIR$/accounting/static/js/app.js" />
         <option value="$PROJECT_DIR$/accounting/static/library/simple-datatables/simple-datatables.css" />
-        <option value="$PROJECT_DIR$/accounting/views.py" />
         <option value="$PROJECT_DIR$/accounting/permissions.py" />
         <option value="$PROJECT_DIR$/crm/settings.py" />
         <option value="$PROJECT_DIR$/accounting/models.py" />
         <option value="$PROJECT_DIR$/accounting/static/library/simple-datatables/simple-datatables.js" />
-        <option value="$PROJECT_DIR$/accounting/templates/accounting/invoices.html" />
         <option value="$PROJECT_DIR$/accounting/urls.py" />
         <option value="$PROJECT_DIR$/accounting/serializers.py" />
         <option value="$PROJECT_DIR$/accounting/api.py" />
         <option value="$PROJECT_DIR$/accounting/static/library/simple-datatables/datatable.ediitable.min.js" />
         <option value="$PROJECT_DIR$/accounting/templates/accounting/base.html" />
+        <option value="$PROJECT_DIR$/accounting/views.py" />
+        <option value="$PROJECT_DIR$/accounting/templates/accounting/invoices.html" />
         <option value="$PROJECT_DIR$/accounting/static/js/create.js" />
       </list>
     </option>
@@ -350,18 +344,18 @@
       <workItem from="1588161794925" duration="1993000" />
       <workItem from="1588509910078" duration="3706000" />
       <workItem from="1588582412014" duration="12610000" />
-      <workItem from="1588605163157" duration="8974000" />
+      <workItem from="1588605163157" duration="11181000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="109108000" />
+    <option name="totallyTimeSpent" value="111315000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="1057" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28594506" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28594506" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="DB Browser" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -656,16 +650,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/accounting/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-451">
-          <caret line="21" column="17" lean-forward="true" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#57#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/accounting/static/library/simple-datatables/simple-datatables.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="276">
@@ -689,16 +673,6 @@
           <caret line="78" column="18" selection-start-line="78" selection-start-column="18" selection-end-line="78" selection-end-column="18" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/accounting/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -737,13 +711,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/invoices.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" column="19" lean-forward="true" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/base.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="276">
@@ -751,10 +718,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/accounting/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="78" column="26" lean-forward="true" selection-start-line="78" selection-start-column="26" selection-end-line="78" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/accounting/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/invoices.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-664">
+          <caret line="9" column="114" lean-forward="true" selection-start-line="9" selection-start-column="114" selection-end-line="9" selection-end-column="114" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/accounting/static/js/create.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="530">
-          <caret line="84" column="67" selection-start-line="84" selection-start-column="67" selection-end-line="84" selection-end-column="67" />
+        <state relative-caret-position="509">
+          <caret line="113" column="76" selection-start-line="113" selection-start-column="76" selection-end-line="113" selection-end-column="76" />
         </state>
       </provider>
     </entry>

@@ -108,10 +108,10 @@ function watchTable(dataTable) {
 }
 
 function makeRowLink(table) {
-    if (!table.hasAttribute('data-row-link-base')) return;
+    const base = (table.hasAttribute('data-row-link-base') ? table.getAttribute('data-row-link-base') : '');
     table.querySelectorAll('[data-row]').forEach( (row) => {
         row.addEventListener('click', () => {
-            window.location.href = table.getAttribute('data-row-link-base') + '/' + row.getAttribute('data-row');
+            window.location.href = base + '/' + row.getAttribute('data-row');
         });
     });
 }

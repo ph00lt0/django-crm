@@ -89,7 +89,7 @@ class Item(models.Model):
 
 
 class InvoiceItem(models.Model):
-    invoice = models.ForeignKey(Invoice, related_name='invoice_item_invoice', on_delete=models.CASCADE)
+    invoice = models.ForeignKey(Invoice, related_name='items', on_delete=models.CASCADE)
     item = models.ForeignKey(Item, related_name='invoice_item_item', on_delete=models.PROTECT)
     price = models.DecimalField(decimal_places=2, max_digits=20)
     amount = models.IntegerField()

@@ -16,21 +16,20 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
 class InvoiceItemSerializer(serializers.ModelSerializer):
-    invoice_item_item = ItemSerializer(many=True, read_only=True)
+    details = ItemSerializer(source='item')
 
     class Meta:
         model = InvoiceItem
-        fields = ['invoice', 'invoice_item_item', 'price', 'amount']
+        fields = ['price', 'amount', 'details']
 
 
 class InvoiceSerializer(serializers.ModelSerializer):
-    invoice_item_invoice = InvoiceItemSerializer(many=True, label='items')
+    items = InvoiceItemSerializer(many=True, label='items')
     client = serializers.CharField(source="client.name")
-
 
     class Meta:
         model = Invoice
-        fields = ['uuid', 'reference', 'client', 'invoice_item_invoice']
+        fields = ['uuid', 'reference', 'client', 'items']
 
     # def create(self, validated_data):
     #     item_items = validated_data.pop('items')

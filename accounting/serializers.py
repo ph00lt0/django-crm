@@ -24,16 +24,19 @@ class InvoiceItemSerializer(serializers.ModelSerializer):
 
 class InvoiceSerializer(serializers.ModelSerializer):
     client = serializers.CharField(source="client.name")
-    items = InvoiceItemSerializer(many=True)
     total_price = serializers.SerializerMethodField(method_name='get_total_price')
 
     class Meta:
         model = Invoice
-        fields = ['uuid', 'reference', 'client', 'items', 'total_price']
+        fields = ['uuid', 'reference', 'client', 'total_price']
+
+
 
     def get_total_price(self, instance):
+        items = InvoiceItem.objects.filter(invoice=instance)
         total = 0
-        for item_item in instance.items.all():
+
+        for item_item in items:
             total += item_item.price
         return total
 

@@ -1,0 +1,15 @@
+{% extends "accounting/base.html" %}
+
+{% block title %}
+    Invoices
+{% endblock %}
+
+
+{% block content %}
+
+    <table data-table data-url="{% url 'accounting:invoice-detail' uuid %}" data-row-link-base="{{ request.get_full_path }}">
+
+    </table>
+
+
+{% endblock %}

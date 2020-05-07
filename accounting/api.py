@@ -15,7 +15,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             return InvoiceSerializer
         if self.action == 'retrieve':
             return InvoiceDetailSerializer
-        return InvoiceSerializer
+        return InvoiceDetailSerializer
 
     def get_queryset(self):
         client_items = Client.objects.filter(company=self.request.user.employee.company)

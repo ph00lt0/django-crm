@@ -190,12 +190,12 @@ def item_create(request):
 def invoices(request):
     company = request.user.employee.company
     client_items = Client.objects.filter(company=company)
-    invoice_items = Invoice.objects.filter(client__in=client_items.values_list('pk'))
+    # invoice_items = Invoice.objects.filter(client__in=client_items.values_list('pk'))
     currency_items = Currency.objects.all()
     item_items = Item.objects.filter(company=company)
 
     context = {
-        'invoices': invoice_items,
+        # 'invoices': invoice_items,
         'default_currency': company.default_currency.pk,
         'clients': client_items,
         'currencies': currency_items,
@@ -203,6 +203,16 @@ def invoices(request):
     }
 
     return render(request, 'accounting/invoices.html', context)
+
+
+@login_required()
+@employee_check
+@profile_completed
+def invoice(request, uuid):
+    context = {
+        'uuid': uuid
+    }
+    return render(request, 'accounting/invoice.html', context)
 
 
 @login_required()

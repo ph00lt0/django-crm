@@ -51,19 +51,38 @@ function watchItems(form) {
     });
 }
 
-
 function constructTableData(response) {
+    let UUIDlocation = 0;
+    let columnCount = 0;
+
+    function countColumn(column) {
+        if (column === 'uuid') UUIDlocation = columnCount;
+        columnCount++;
+    }
+
     const data = {"data": []};
+
     for (let i = 0; i < response.length; i++) {
         data.data[i] = [];
         data.headings = [];
+        // counting for position of column for uuid field. Which is used in the render of init tables
         for (let key in response[i]) {
-            data.headings.push(key);
-            const column = response[i][key];
-            data.data[i].push(column);
+            let value = response[i][key];
+            // if object with details go though it
+            if (typeof value === 'object') {
+                for (let oKey in value) {
+                    data.headings.push(oKey);
+                    data.data[i].push(value[oKey]);
+                    countColumn(oKey);
+                }
+            } else {
+                data.headings.push(key);
+                data.data[i].push(value);
+                countColumn(key)
+            }
         }
     }
-    return data;
+    return [data, UUIDlocation];
 }
 
 function initTables() {
@@ -74,14 +93,23 @@ function initTables() {
         const response = await get(elm.getAttribute('data-url'));
         if (response.status === "ERROR") return addMessage(response);
 
-        let data = constructTableData(response);
+        let dataAndUUIDlocation;
+        // if response has item rows
+        if (response.items) {
+            dataAndUUIDlocation = constructTableData(response.items);
+        } else {
+            dataAndUUIDlocation = constructTableData(response);
+        }
+        const data = dataAndUUIDlocation[0]; // position in return
+        const UUIDlocation = dataAndUUIDlocation[1]; // position in return
+
         const config = {
             data,
             filters: {},
             columns: [
                 {
                     // add uuid to row as attribute for linking to other pages
-                    select: 0, hidden: true, render: function (data, cell, row) {
+                    select: UUIDlocation, hidden: true, render: function (data, cell, row) {
                         row.setAttribute('data-row', data);
                     }
                 }
@@ -109,7 +137,7 @@ function watchTable(dataTable) {
 
 function makeRowLink(table) {
     const base = (table.hasAttribute('data-row-link-base') ? table.getAttribute('data-row-link-base') : '');
-    table.querySelectorAll('[data-row]').forEach( (row) => {
+    table.querySelectorAll('[data-row]').forEach((row) => {
         row.addEventListener('click', () => {
             window.location.href = base + '/' + row.getAttribute('data-row');
         });

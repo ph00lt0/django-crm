@@ -19,7 +19,7 @@
     </table>
 
     <section data-create-form>
-        <span data-url="{% url 'accounting:invoice_create' %}"></span>
+        <span data-url="{% url 'accounting:invoice-list' %}"></span>
         {% csrf_token %}
         <select data-field data-choices-client name="client">
             <option value="">Select client</option>

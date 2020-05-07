@@ -35,6 +35,7 @@ urlpatterns = [
       path('items/create', views.item_create, name='item_create'),
 
       path('invoices', views.invoices, name='invoices'),
+      path('invoices/<uuid:uuid>', views.invoice, name='invoice'),
       path('invoices/create', views.invoice_create, name='invoice_create'),
 
       path('api/v1/rest-auth/', include('rest_auth.urls')),

@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="53c90dba-58cb-4648-8b55-d989904313f5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/accounting/templates/accounting/invoice.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/mp.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/mp.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/serializers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounting/static/js/create.js" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/static/js/create.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/templates/accounting/invoices.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/templates/accounting/invoices.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounting/templates/accounting/invoice.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/templates/accounting/invoice.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,8 +64,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/invoice.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="207">
+              <caret line="9" column="124" selection-start-line="9" selection-start-column="124" selection-end-line="9" selection-end-column="124" />
             </state>
           </provider>
         </entry>
@@ -98,8 +91,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/accounting/static/js/create.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="70" column="50" lean-forward="true" selection-start-line="70" selection-start-column="50" selection-end-line="70" selection-end-column="50" />
+            <state relative-caret-position="237">
+              <caret line="60" selection-start-line="60" selection-end-line="60" />
             </state>
           </provider>
         </entry>
@@ -350,12 +343,12 @@
       <workItem from="1588161794925" duration="1993000" />
       <workItem from="1588509910078" duration="3706000" />
       <workItem from="1588582412014" duration="12610000" />
-      <workItem from="1588605163157" duration="24760000" />
+      <workItem from="1588605163157" duration="25548000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="124894000" />
+    <option name="totallyTimeSpent" value="125682000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1280" y="23" width="1280" height="1057" extended-state="0" />
@@ -666,13 +659,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="23">
@@ -694,13 +680,6 @@
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/accounting/static/js/client.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -758,17 +737,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/invoice.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="207">
+          <caret line="9" column="124" selection-start-line="9" selection-start-column="124" selection-end-line="9" selection-end-column="124" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/accounting/static/js/client.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/accounting/static/js/create.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="70" column="50" lean-forward="true" selection-start-line="70" selection-start-column="50" selection-end-line="70" selection-end-column="50" />
+        <state relative-caret-position="237">
+          <caret line="60" selection-start-line="60" selection-end-line="60" />
         </state>
       </provider>
     </entry>

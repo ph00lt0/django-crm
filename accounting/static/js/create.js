@@ -52,11 +52,11 @@ function watchItems(form) {
 }
 
 function constructTableData(response) {
-    let UUIDlocation = 0;
+    let UUIDlocation;
     let columnCount = 0;
 
     function countColumn(column) {
-        if (column === 'uuid') UUIDlocation = columnCount;
+        if (column === 'uuid' && isNaN(UUIDlocation) ) UUIDlocation = columnCount;
         columnCount++;
     }
 

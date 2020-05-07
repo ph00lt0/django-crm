@@ -56,6 +56,7 @@ function constructTableData(response) {
     let columnCount = 0;
 
     function countColumn(column) {
+        // check if UUID location is not a num since 0 equals false
         if (column === 'uuid' && isNaN(UUIDlocation) ) UUIDlocation = columnCount;
         columnCount++;
     }

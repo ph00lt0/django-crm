@@ -21,13 +21,20 @@ class ClientSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, data):
         details_data = data.pop('details')
-        client = self.Meta.model.objects.create(**data)
-        detail_serializer = ClientDetailSerializer(client=client, data=details_data)
+        client = self.Meta.model.objects.create(company=self.context['request'].user.employee.company, **data)
+        # details_data['client'] = client
+        print(details_data)
+
+        detail_serializer = ClientDetailSerializer(client=client, **details_data)
         if detail_serializer.is_valid():  # PageSerializer does the validation
             detail_serializer.save()
         else:
             raise serializers.ValidationError(detail_serializer.errors)  # throws errors if any
         return client
+        # client_data = data.pop('name')
+        # details = ClientDetailSerializer.create(ClientDetailSerializer(), validated_data=client_data)
+        # student, created = Client.objects.create(details=details, name=data.pop('name'))
+        # return student
 
 
 class ItemSerializer(serializers.ModelSerializer):

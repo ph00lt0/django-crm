@@ -1,7 +1,7 @@
 function post(formData, url) {
     return fetch(url, {
         method: 'POST',
-        headers: {'X-CSRFToken': getCookie('csrftoken'),},
+        headers: {'X-CSRFToken': getCookie('csrftoken'), 'Content-Type': 'application/json'},
         body: formData,
     }).then(response => response.json()).catch(error => error.json())
 }
@@ -18,9 +18,11 @@ function create() {
         watchItems(form);
         const url = form.querySelector('[data-url]').getAttribute('data-url');
         const formData = new FormData();
+        const dataForm = {};
         form.querySelector('[data-submit]').addEventListener('click', async () => {
             form.querySelectorAll('[data-field]').forEach((field) => {
                 formData.append(field.getAttribute('name'), field.value);
+                dataForm[field.getAttribute('name')] = field.value;
             });
             const items = {};
             // for all form rows with items
@@ -31,7 +33,11 @@ function create() {
                     items[pk] = {};
                     // fields connected to data-item
                     row.querySelectorAll('[data-sub-item-field]').forEach((field) => {
-                        items[pk][field.getAttribute('name')] = field.value;
+                        // items[pk][field.getAttribute('name')] = field.value;
+                        items.push({
+                            key: field.getAttribute('name'),
+                            value: field.value
+                        });
                     });
                 });
                 // add sub fields not connected to data-item
@@ -40,8 +46,10 @@ function create() {
                 });
             });
             // todo items[] should be a var depended on frontend
-            if (Object.keys(items).length > 0) formData.append('items[]', JSON.stringify(items));
+            if (Object.keys(items).length > 0) formData.append('details[]', `{"address":"","zip":"","city":"","country":"","email":"","phone":"","vat":"","commerce":""}`);
+            if (Object.keys(items).length > 0)  dataForm['details'] = items;
             addMessage(await post(formData, url));
+            addMessage(await post(JSON.stringify(dataForm), url));
         });
     });
 }

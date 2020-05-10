@@ -22,26 +22,24 @@ function create() {
             form.querySelectorAll('[data-field]').forEach((field) => {
                 formData.append(field.getAttribute('name'), field.value);
             });
-            const items =
-                [{
-                    "price": "19.00",
-                    "amount": 1,
-                    "details": {
-                        "description": "Test product",
-                        "uuid": "21437694-0ec0-46c7-aa27-852760bb22e4"
-                    }
-                }];
+            const items = {};
             // for all form rows with items
-            // form.querySelectorAll('[data-item-row]').forEach((row) => {
-            //     // for all selected items in item row
-            //     row.querySelectorAll('[data-item]').forEach((item) => {
-            //         const pk = item.getAttribute('data-value');
-            //         items[pk] = {};
-            //         row.querySelectorAll('[data-item-row-field]').forEach((field) => {
-            //             items[pk][field.getAttribute('name')] = field.value;
-            //         });
-            //     });
-            // });
+            form.querySelectorAll('[data-sub-row]').forEach((row) => {
+                // for all selected items in item row
+                row.querySelectorAll('[data-item]').forEach((item) => {
+                    const pk = item.getAttribute('data-value');
+                    items[pk] = {};
+                    // fields connected to data-item
+                    row.querySelectorAll('[data-sub-item-field]').forEach((field) => {
+                        items[pk][field.getAttribute('name')] = field.value;
+                    });
+                });
+                // add sub fields not connected to data-item
+                row.querySelectorAll('[data-sub-field]').forEach((field) => {
+                    items[field.getAttribute('name')] = field.value;
+                });
+            });
+            // todo items[] should be a var depended on frontend
             if (Object.keys(items).length > 0) formData.append('items[]', JSON.stringify(items));
             addMessage(await post(formData, url));
         });
@@ -49,14 +47,14 @@ function create() {
 }
 
 function watchItems(form) {
-    if (!form.querySelector('[data-add-item-row]')) return;
-    form.querySelector('[data-add-item-row]').addEventListener('click', () => {
-        const clone = form.querySelector('[data-item-template]').content.cloneNode(true);
+    if (!form.querySelector('[data-add-sub-row]')) return;
+    form.querySelector('[data-add-sub-row]').addEventListener('click', () => {
+        const clone = form.querySelector('[data-sub-template]').content.cloneNode(true);
         new Choices(clone.querySelector('[data-choices-items]'), {
             addItems: true,
             searchPlaceholderValue: 'Type to search',
         });
-        form.querySelector('[data-items]').appendChild(clone);
+        form.querySelector('[data-subs]').appendChild(clone);
     });
 }
 

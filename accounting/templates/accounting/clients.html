@@ -9,19 +9,19 @@
     <table data-table data-url="{% url 'accounting:clients-api' %}" data-row-link-base="{{ request.get_full_path }}">
     </table>
 
-    <section class="create">
-        <form method="POST" action="{% url 'accounting:client_create' %}">
-            {% csrf_token %}
-            <input type="text" name="name" placeholder="Name">
-            <input type="text" name="address" placeholder="Address">
-            <input type="text" name="zip" placeholder="Zip">
-            <input type="text" name="city" placeholder="City">
-            <input type="text" name="country" placeholder="Country">
-            <input type="text" name="email" placeholder="Email">
-            <input type="text" name="phone" placeholder="Phone">
-            <input type="text" name="vat" placeholder="VAT-ID">
-            <input type="text" name="commerce" placeholder="Commerce ID">
-            <button>Create</button>
-        </form>
+    <section data-create-form>
+        <span data-url="{% url 'accounting:clients-api' %}"></span>
+        <input data-field type="text" name="name" placeholder="Name">
+        <div data-sub-row="details">
+            <input data-sub-field type="text" name="address" placeholder="Address">
+            <input data-sub-field type="text" name="zip" placeholder="Zip">
+            <input data-sub-field type="text" name="city" placeholder="City">
+            <input data-sub-field type="text" name="country" placeholder="Country">
+            <input data-sub-field type="text" name="email" placeholder="Email">
+            <input data-sub-field type="text" name="phone" placeholder="Phone">
+            <input data-sub-field type="text" name="vat" placeholder="VAT-ID">
+            <input data-sub-field type="text" name="commerce" placeholder="Commerce ID">
+        </div>
+        <button data-submit>Create</button>
     </section>
 {% endblock %}

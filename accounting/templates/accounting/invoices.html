@@ -29,8 +29,8 @@
                 </option>
             {% endfor %}
         </select>
-        <div data-items>
-            <div data-item-row>
+        <div data-subs>
+            <div data-sub-row>
                 <select data-item-pk data-choices-items>
                     <option value="">Select item</option>
                     {% for item in items %}
@@ -39,13 +39,13 @@
                         </option>
                     {% endfor %}
                 </select>
-                <input data-item-row-field type="number" name="amount" placeholder="Amount">
-                <input data-item-row-field type="number" name="price" placeholder="price">
+                <input data-sub-item-field type="number" name="amount" placeholder="Amount">
+                <input data-sub-item-field type="number" name="price" placeholder="price">
             </div>
         </div>
-        <button data-add-item-row>Add item</button>
-        <template data-item-template>
-            <div data-item-row>
+        <button data-add-sub-row>Add item</button>
+        <template data-sub-template>
+            <div data-sub-row>
                 <select data-item-pk data-choices-items>
                     <option value="">Select item</option>
                     {% for item in items %}
@@ -54,8 +54,8 @@
                         </option>
                     {% endfor %}
                 </select>
-                <input data-item-row-field type="number" name="amount" placeholder="Amount">
-                <input data-item-row-field type="number" name="price" placeholder="price">
+                <input data-sub-item-field type="number" name="amount" placeholder="Amount">
+                <input data-sub-item-field type="number" name="price" placeholder="price">
             </div>
         </template>
         <button data-submit>Create</button>

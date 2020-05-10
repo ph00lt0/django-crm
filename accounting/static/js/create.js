@@ -25,19 +25,18 @@ function create() {
                 dataForm[field.getAttribute('name')] = field.value;
             });
             const items = {};
+            let subName;
             // for all form rows with items
             form.querySelectorAll('[data-sub-row]').forEach((row) => {
+                // get name of subs items
+                subName = row.getAttribute('data-sub-row');
                 // for all selected items in item row
                 row.querySelectorAll('[data-item]').forEach((item) => {
                     const pk = item.getAttribute('data-value');
-                    items[pk] = {};
+                    items[pk] = [];
                     // fields connected to data-item
                     row.querySelectorAll('[data-sub-item-field]').forEach((field) => {
-                        // items[pk][field.getAttribute('name')] = field.value;
-                        items.push({
-                            key: field.getAttribute('name'),
-                            value: field.value
-                        });
+                        items[pk][field.getAttribute('name')] = field.value;
                     });
                 });
                 // add sub fields not connected to data-item
@@ -46,9 +45,7 @@ function create() {
                 });
             });
             // todo items[] should be a var depended on frontend
-            if (Object.keys(items).length > 0) formData.append('details[]', `{"address":"","zip":"","city":"","country":"","email":"","phone":"","vat":"","commerce":""}`);
-            if (Object.keys(items).length > 0)  dataForm['details'] = items;
-            // addMessage(await post(formData, url));
+            if (Object.keys(items).length > 0)  dataForm[subName] = items;
             addMessage(await post(JSON.stringify(dataForm), url));
         });
     });

@@ -48,7 +48,7 @@ function create() {
             // todo items[] should be a var depended on frontend
             if (Object.keys(items).length > 0) formData.append('details[]', `{"address":"","zip":"","city":"","country":"","email":"","phone":"","vat":"","commerce":""}`);
             if (Object.keys(items).length > 0)  dataForm['details'] = items;
-            addMessage(await post(formData, url));
+            // addMessage(await post(formData, url));
             addMessage(await post(JSON.stringify(dataForm), url));
         });
     });

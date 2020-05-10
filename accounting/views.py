@@ -57,6 +57,7 @@ def client(request, uuid):
     client_details.uuid = client_item.uuid
 
     context = {
+        'uuid': uuid,
         'client': client_details
     }
 
@@ -110,7 +111,6 @@ def client_create(request):
             phone=request.POST['phone'],
             vat=request.POST['vat'],
             commerce=request.POST['commerce'],
-            logo=0
         )
 
     messages.add_message(request, messages.SUCCESS, F"Created client.")

@@ -6,11 +6,8 @@
 
 
 {% block content %}
-    {% for client in clients %}
-        <a href="{% url "accounting:client" client.uuid%}">
-            <p>{{ client.name }}</p>
-        </a>
-    {% endfor %}
+    <table data-table data-url="{% url 'accounting:clients-api' %}" data-row-link-base="{{ request.get_full_path }}">
+    </table>
 
     <section class="create">
         <form method="POST" action="{% url 'accounting:client_create' %}">

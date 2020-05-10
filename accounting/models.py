@@ -47,14 +47,13 @@ class Client(models.Model):
 
 
 class ClientDetail(models.Model):
-    client = models.OneToOneField(Client, on_delete=models.CASCADE)
+    client = models.OneToOneField(Client, related_name='details', on_delete=models.CASCADE)
     address = models.CharField(max_length=255)
     zip = models.CharField(max_length=8)
     city = models.CharField(max_length=200)
     country = models.CharField(max_length=200)
     email = models.CharField(max_length=255)
     phone = models.CharField(max_length=15)
-    logo = models.IntegerField()
     vat = models.CharField(max_length=200)
     commerce = models.CharField(max_length=200)
 

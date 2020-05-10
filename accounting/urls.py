@@ -41,6 +41,8 @@ urlpatterns = [
       path('api/v1/rest-auth/', include('rest_auth.urls')),
       path('api/v1/invoice', invoice_list, name='invoice-list'),
       path('api/v1/invoice/<uuid:uuid>', invoice_detail, name='invoice-detail'),
+      path('api/v1/client', api.ClientApiView.as_view(), name='clients-api'),
+
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

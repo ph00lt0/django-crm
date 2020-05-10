@@ -1,7 +1,7 @@
 function post(formData, url) {
     return fetch(url, {
         method: 'POST',
-        headers: {'X-CSRFToken': getCookie('csrftoken')},
+        headers: {'X-CSRFToken': getCookie('csrftoken'),},
         body: formData,
     }).then(response => response.json()).catch(error => error.json())
 }
@@ -22,25 +22,34 @@ function create() {
             form.querySelectorAll('[data-field]').forEach((field) => {
                 formData.append(field.getAttribute('name'), field.value);
             });
-            const items = {};
+            const items =
+                [{
+                    "price": "19.00",
+                    "amount": 1,
+                    "details": {
+                        "description": "Test product",
+                        "uuid": "21437694-0ec0-46c7-aa27-852760bb22e4"
+                    }
+                }];
             // for all form rows with items
-            form.querySelectorAll('[data-item-row]').forEach((row) => {
-                // for all selected items in item row
-                row.querySelectorAll('[data-item]').forEach((item) => {
-                    const pk = item.getAttribute('data-value');
-                    items[pk] = {};
-                    row.querySelectorAll('[data-item-row-field]').forEach((field) => {
-                        items[pk][field.getAttribute('name')] = field.value;
-                    });
-                });
-            });
-            if (Object.keys(items).length > 0) formData.append('items', JSON.stringify(items));
+            // form.querySelectorAll('[data-item-row]').forEach((row) => {
+            //     // for all selected items in item row
+            //     row.querySelectorAll('[data-item]').forEach((item) => {
+            //         const pk = item.getAttribute('data-value');
+            //         items[pk] = {};
+            //         row.querySelectorAll('[data-item-row-field]').forEach((field) => {
+            //             items[pk][field.getAttribute('name')] = field.value;
+            //         });
+            //     });
+            // });
+            if (Object.keys(items).length > 0) formData.append('items[]', JSON.stringify(items));
             addMessage(await post(formData, url));
         });
     });
 }
 
 function watchItems(form) {
+    if (!form.querySelector('[data-add-item-row]')) return;
     form.querySelector('[data-add-item-row]').addEventListener('click', () => {
         const clone = form.querySelector('[data-item-template]').content.cloneNode(true);
         new Choices(clone.querySelector('[data-choices-items]'), {
@@ -62,6 +71,10 @@ function constructTableData(response) {
     }
 
     const data = {"data": []};
+    if (!response.length) {
+        response = [response]
+    }
+    console.log(response.length);
 
     for (let i = 0; i < response.length; i++) {
         data.data[i] = [];

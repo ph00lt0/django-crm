@@ -1,13 +1,22 @@
 from rest_framework import serializers
-from .models import Item, Invoice, InvoiceItem, Client, Currency
+from .models import Item, Invoice, InvoiceItem, Client, ClientDetail, Currency
 from django.shortcuts import get_object_or_404
 import json
 
 
-class InvoiceClientSerializer(serializers.ModelSerializer):
+class ClientDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ClientDetail
+        fields = ['address', 'zip', 'city', 'country', 'email', 'phone', 'vat', 'commerce']
+
+
+class ClientSerializer(serializers.ModelSerializer):
+    details = ClientDetailSerializer()
+
     class Meta:
         model = Client
-        fields = ('uuid', 'name')
+        fields = ['uuid', 'name', 'details']
 
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -51,8 +60,6 @@ class InvoiceDetailSerializer(serializers.ModelSerializer):
         fields = ['uuid', 'reference', 'client', 'items']
 
     def create(self, data):
-        print(data)
-
         client_uuid = data['client']
         currency_pk = data['currency']
         reference = data['reference']
@@ -91,10 +98,3 @@ class InvoiceDetailSerializer(serializers.ModelSerializer):
                 print(item_items[key]['amount'])
 
         return {'status': 'SUCCESS', 'message': 'Invoice created'}
-
-# def create(self, validated_data):
-#     item_items = validated_data.pop('items')
-#     invoice = Invoice.objects.create(**validated_data)
-#     for item_item in item_items:
-#         InvoiceItem.objects.create(invoice=invoice, **item_item)
-#     return invoice

@@ -1,13 +1,13 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, generics, permissions
 from rest_framework.response import Response
 from .models import Invoice, Client, InvoiceItem
-from .serializers import InvoiceSerializer, InvoiceDetailSerializer
-from .permissions import IsOwnerOrNoAccess
+from .serializers import *
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 
 # generics.ListCreateAPIView
 class InvoiceViewSet(viewsets.ModelViewSet):
-    queryset = Invoice.objects.all()
+    parser_classes = (MultiPartParser, FormParser, JSONParser)
     lookup_field = 'uuid'
 
     def get_serializer_class(self):
@@ -21,3 +21,11 @@ class InvoiceViewSet(viewsets.ModelViewSet):
         client_items = Client.objects.filter(company=self.request.user.employee.company)
         queryset = Invoice.objects.filter(client__in=client_items.values_list('pk'))
         return queryset
+
+
+class ClientApiView(generics.ListCreateAPIView):
+    lookup_field = 'uuid'
+    serializer_class = ClientSerializer
+
+    def get_queryset(self):
+        return Client.objects.filter(company=self.request.user.employee.company)

@@ -21,7 +21,7 @@
                 </option>
             {% endfor %}
         </select>
-        <input data-field type="text" name="reference" placeholder="Reference">
+        <input data-field type="text" name="reference" placeholder="reference">
         <select data-field name="currency">
             {% for currency in currencies %}
                 <option value="{{ currency.pk }}" {% if currency.pk == default_currency %} selected {% endif %}>

@@ -24,7 +24,8 @@ function create() {
                 formData.append(field.getAttribute('name'), field.value);
                 dataForm[field.getAttribute('name')] = field.value;
             });
-            const items = {};
+            const details = {};
+            const items = [];
             let subName;
             // for all form rows with items
             form.querySelectorAll('[data-sub-row]').forEach((row) => {
@@ -41,11 +42,11 @@ function create() {
                 });
                 // add sub fields not connected to data-item
                 row.querySelectorAll('[data-sub-field]').forEach((field) => {
-                    items[field.getAttribute('name')] = field.value;
+                    details[field.getAttribute('name')] = field.value;
                 });
             });
-            // todo items[] should be a var depended on frontend
             if (Object.keys(items).length > 0)  dataForm[subName] = items;
+            if (Object.keys(details).length > 0)  dataForm[subName] = details;
             addMessage(await post(JSON.stringify(dataForm), url));
         });
     });
@@ -77,7 +78,6 @@ function constructTableData(response) {
     if (!response.length) {
         response = [response]
     }
-    console.log(response.length);
 
     for (let i = 0; i < response.length; i++) {
         data.data[i] = [];

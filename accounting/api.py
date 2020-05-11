@@ -15,6 +15,8 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             return InvoiceSerializer
         if self.action == 'retrieve':
             return InvoiceDetailSerializer
+        if self.action == 'create':
+            return InvoiceCreateSerializer
         return InvoiceDetailSerializer
 
     def get_queryset(self):

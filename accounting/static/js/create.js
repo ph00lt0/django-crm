@@ -26,27 +26,28 @@ function create() {
             });
             const details = {};
             const items = [];
-            let subName;
+            // let subName;
             // for all form rows with items
             form.querySelectorAll('[data-sub-row]').forEach((row) => {
                 // get name of subs items
-                subName = row.getAttribute('data-sub-row');
+                // subName = row.getAttribute('data-sub-row');
                 // for all selected items in item row
                 row.querySelectorAll('[data-item]').forEach((item) => {
-                    const pk = item.getAttribute('data-value');
-                    items[pk] = [];
+                    const itemsItem = {};
+                    itemsItem['item'] = item.getAttribute('data-value');
                     // fields connected to data-item
                     row.querySelectorAll('[data-sub-item-field]').forEach((field) => {
-                        items[pk][field.getAttribute('name')] = field.value;
+                        itemsItem[field.getAttribute('name')] = field.value;
                     });
+                    items.push(itemsItem)
                 });
                 // add sub fields not connected to data-item
                 row.querySelectorAll('[data-sub-field]').forEach((field) => {
                     details[field.getAttribute('name')] = field.value;
                 });
             });
-            if (Object.keys(items).length > 0)  dataForm[subName] = items;
-            if (Object.keys(details).length > 0)  dataForm[subName] = details;
+            if (Object.keys(items).length > 0)  dataForm['items'] = items;
+            if (Object.keys(details).length > 0)  dataForm['details'] = details;
             addMessage(await post(JSON.stringify(dataForm), url));
         });
     });

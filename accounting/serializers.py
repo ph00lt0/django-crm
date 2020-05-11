@@ -2,7 +2,6 @@ from rest_framework import serializers
 from django.db import transaction
 from .models import Item, Invoice, InvoiceItem, Client, ClientDetail, Currency
 from django.shortcuts import get_object_or_404
-import json
 
 
 class ClientDetailSerializer(serializers.ModelSerializer):
@@ -41,7 +40,7 @@ class ClientSerializer(serializers.ModelSerializer):
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ['description', 'uuid']
+        fields = ['description', 'uuid', 'default_price']
 
 
 class InvoiceItemSerializer(serializers.ModelSerializer):
@@ -77,28 +76,73 @@ class InvoiceDetailSerializer(serializers.ModelSerializer):
         model = Invoice
         fields = ['uuid', 'reference', 'client', 'items', 'currency']
 
+
+# validate input for items when creating new invoice
+class InvoiceItemCreateSerializer(serializers.ModelSerializer):
+    item = serializers.CharField(source="item.uuid")
+
+    class Meta:
+        model = InvoiceItem
+        fields = ['price', 'amount', 'item']
+
+
+# validate input for items when creating new invoice's items
+class InvoiceItemCreateItemSerializer(serializers.ModelSerializer):
+    item = serializers.CharField(source="item.uuid")
+
+    class Meta:
+        model = InvoiceItem
+        fields = ['price', 'amount', 'item', 'invoice']
+
+    def create(self, data):
+        item_data = data.pop('item')
+        item_item = get_object_or_404(Item, uuid=item_data['uuid'])
+        data['item'] = item_item
+        print(data)
+
+        # todo: add validation of item belonging to user, context does not get passed to nested items.
+        # if not item_item.company == self.context['request'].user.employee.company:
+        #     return {'status': 'ERROR', 'message': 'Item not found'}
+
+        item = self.Meta.model.objects.create(**data)
+        return item
+
+
+class InvoiceCreateSerializer(serializers.ModelSerializer):
+    items = InvoiceItemCreateSerializer(many=True)
+    client = serializers.CharField(source="client.uuid")
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     if self.context['request'].method == 'GET':
+    #         self.fields['items'] = InvoiceCreateItemSerializer(many=True, label='items')
+    #     else:
+    #         self.fields['items'] = InvoiceCreateItemSerializer(many=True, label='items')
+
+    class Meta:
+        model = Invoice
+        fields = ['uuid', 'reference', 'client', 'items', 'currency']
+
     @transaction.atomic
     def create(self, data):
-        items_data = data.pop('items')
+        invoice_items_data = data.pop('items')
         client = data.pop('client')
 
-        client_item = get_object_or_404(Client, uuid=client['name'])
+        client_item = get_object_or_404(Client, uuid=client['uuid'])
         if not client_item.company == self.context['request'].user.employee.company:
             return {'status': 'ERROR', 'message': 'Client not found'}
 
         invoice = self.Meta.model.objects.create(client=client_item, **data)
 
-        # for key in items_data:
-        #     item_item = get_object_or_404(Item, uuid=key)
-        #     if not item_item.company == self.context['request'].user.employee.company:
-        #         return {'status': 'ERROR', 'message': 'Item not found'}
-        #
-        #     InvoiceItem.objects.create(
-        #         invoice=invoice,
-        #         item=item_item,
-        #         price=item_items[key]['price'],
-        #         amount=item_items[key]['amount'],
-        #     )
-        #     print(item_items[key]['amount'])
+        for invoice_item in invoice_items_data:
+            item_data = invoice_item.pop('item')
+            invoice_item['item'] = item_data['uuid']
+            invoice_item['invoice'] = invoice.pk
+            print(invoice_item)
+            item_serializer = InvoiceItemCreateItemSerializer(data=invoice_item)
+            if item_serializer.is_valid():  # PageSerializer does the validation
+                item_serializer.save()
+            else:
+                raise serializers.ValidationError(item_serializer.errors)  # throws errors if any
 
         return invoice

@@ -87,34 +87,33 @@ def client_update(request, uuid):
         return Response({'status': 'ERROR', 'message': 'Failed to updated client'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@login_required()
-@employee_check
-@profile_completed
-def client_create(request):
-    if not request.method == "POST":
-        return HttpResponse(status=405)
-
-    # todo add try catch
-    with transaction.atomic():
-        Client.objects.create(
-            name=request.POST['name'],
-            company=request.user.employee.company
-        )
-        client = Client.objects.latest('id')
-        ClientDetail.objects.create(
-            client=client,
-            address=request.POST['address'],
-            zip=request.POST['zip'],
-            city=request.POST['city'],
-            country=request.POST['country'],
-            email=request.POST['email'],
-            phone=request.POST['phone'],
-            vat=request.POST['vat'],
-            commerce=request.POST['commerce'],
-        )
-
-    messages.add_message(request, messages.SUCCESS, F"Created client.")
-    return HttpResponseRedirect(reverse('accounting:clients'))
+# @login_required()
+# @employee_check
+# @profile_completed
+# def client_create(request):
+#     if not request.method == "POST":
+#         return HttpResponse(status=405)
+#
+#     with transaction.atomic():
+#         Client.objects.create(
+#             name=request.POST['name'],
+#             company=request.user.employee.company
+#         )
+#         client = Client.objects.latest('id')
+#         ClientDetail.objects.create(
+#             client=client,
+#             address=request.POST['address'],
+#             zip=request.POST['zip'],
+#             city=request.POST['city'],
+#             country=request.POST['country'],
+#             email=request.POST['email'],
+#             phone=request.POST['phone'],
+#             vat=request.POST['vat'],
+#             commerce=request.POST['commerce'],
+#         )
+#
+#     messages.add_message(request, messages.SUCCESS, F"Created client.")
+#     return HttpResponseRedirect(reverse('accounting:clients'))
 
 
 # Company
@@ -215,46 +214,46 @@ def invoice(request, uuid):
     return render(request, 'accounting/invoice.html', context)
 
 
-@login_required()
-@employee_check
-@api_view(['POST'])
-def invoice_create(request):
-    client_uuid = request.data['client']
-    currency_pk = request.data['currency']
-    reference = request.data['reference']
-    item_json = request.data['items']
-
-    if not client_uuid or not currency_pk or not reference or not item_json:
-        return Response({'status': 'ERROR', 'message': 'Fields missing'}, status=status.HTTP_400_BAD_REQUEST)
-
-    client_item = get_object_or_404(Client, uuid=client_uuid)
-    currency_item = get_object_or_404(Currency, pk=currency_pk)
-    if not client_item.company == request.user.employee.company:
-        return Response({'status': 'ERROR', 'message': 'Client not found'}, status=status.HTTP_404_NOT_FOUND)
-
-    # todo add try catch
-    with transaction.atomic():
-        Invoice.objects.create(
-            client=client_item,
-            reference=reference,
-            currency=currency_item,
-        )
-        invoice = Invoice.objects.latest('id')
-        item_items = json.loads(item_json)
-        print(item_items)
-        for key in item_items:
-            # todo create item if not existing
-            item_item = get_object_or_404(Item, uuid=key)
-            if not item_item.company == request.user.employee.company:
-                return Response({'status': 'ERROR', 'message': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
-
-            InvoiceItem.objects.create(
-                invoice=invoice,
-                item=item_item,
-                price=item_items[key]['price'],
-                amount=item_items[key]['amount'],
-            )
-            print(item_items[key]['amount'])
-
-    return Response({'status': 'SUCCESS', 'message': 'Invoice created'}, status=status.HTTP_200_OK)
+# @login_required()
+# @employee_check
+# @api_view(['POST'])
+# def invoice_create(request):
+#     client_uuid = request.data['client']
+#     currency_pk = request.data['currency']
+#     reference = request.data['reference']
+#     item_json = request.data['items']
+#
+#     if not client_uuid or not currency_pk or not reference or not item_json:
+#         return Response({'status': 'ERROR', 'message': 'Fields missing'}, status=status.HTTP_400_BAD_REQUEST)
+#
+#     client_item = get_object_or_404(Client, uuid=client_uuid)
+#     currency_item = get_object_or_404(Currency, pk=currency_pk)
+#     if not client_item.company == request.user.employee.company:
+#         return Response({'status': 'ERROR', 'message': 'Client not found'}, status=status.HTTP_404_NOT_FOUND)
+#
+#     # todo add try catch
+#     with transaction.atomic():
+#         Invoice.objects.create(
+#             client=client_item,
+#             reference=reference,
+#             currency=currency_item,
+#         )
+#         invoice = Invoice.objects.latest('id')
+#         item_items = json.loads(item_json)
+#         print(item_items)
+#         for key in item_items:
+#             # todo create item if not existing
+#             item_item = get_object_or_404(Item, uuid=key)
+#             if not item_item.company == request.user.employee.company:
+#                 return Response({'status': 'ERROR', 'message': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
+#
+#             InvoiceItem.objects.create(
+#                 invoice=invoice,
+#                 item=item_item,
+#                 price=item_items[key]['price'],
+#                 amount=item_items[key]['amount'],
+#             )
+#             print(item_items[key]['amount'])
+#
+#     return Response({'status': 'SUCCESS', 'message': 'Invoice created'}, status=status.HTTP_200_OK)
 

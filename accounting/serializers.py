@@ -138,7 +138,6 @@ class InvoiceCreateSerializer(serializers.ModelSerializer):
             item_data = invoice_item.pop('item')
             invoice_item['item'] = item_data['uuid']
             invoice_item['invoice'] = invoice.pk
-            print(invoice_item)
             item_serializer = InvoiceItemCreateItemSerializer(data=invoice_item)
             if item_serializer.is_valid():  # PageSerializer does the validation
                 item_serializer.save()

@@ -25,7 +25,7 @@ invoice_detail = api.InvoiceViewSet.as_view({
 urlpatterns = [
       path('', views.index, name='index'),
       path('clients', views.clients, name='clients'),
-      path('clients/create', views.client_create, name='client_create'),
+      # path('clients/create', views.client_create, name='client_create'),
       path('clients/<uuid:uuid>', views.client, name='client'),
       path('clients/update/<uuid:uuid>', views.client_update, name='client_update'),
 
@@ -36,7 +36,7 @@ urlpatterns = [
 
       path('invoices', views.invoices, name='invoices'),
       path('invoices/<uuid:uuid>', views.invoice, name='invoice'),
-      path('invoices/create', views.invoice_create, name='invoice_create'),
+      # path('invoices/create', views.invoice_create, name='invoice_create'),
 
       path('api/v1/rest-auth/', include('rest_auth.urls')),
       path('api/v1/invoice', invoice_list, name='invoice-list'),

@@ -6,6 +6,21 @@ function post(formData, url) {
     }).then(response => response.json()).catch(error => error.json())
 }
 
+function update(attr, value, url) {
+    const formData = new FormData();
+
+    formData.append(attr, value);
+
+    return fetch(url, {
+        method: 'PUT',
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken')
+         },
+        body: formData,
+    }).then(response => response.json())
+    .catch(error => error.json())
+}
+
 function get(url) {
     return fetch(url, {
         method: 'GET',
@@ -121,10 +136,18 @@ function initTables() {
         const data = dataAndUUIDlocation[0]; // position in return
         const UUIDlocation = dataAndUUIDlocation[1]; // position in return
 
+        const columns = Array.apply(null, {length: data.headings.length}).map(Number.call, Number);
+
         const config = {
             data,
             filters: {},
             columns: [
+                {
+                    select: columns, render: function (data, cell, row) {
+                        cell.setAttribute('contenteditable', 'true');
+                        return data
+                    }
+                },
                 {
                     // add uuid to row as attribute for linking to other pages
                     select: UUIDlocation, hidden: true, render: function (data, cell, row) {
@@ -139,6 +162,7 @@ function initTables() {
 }
 
 function watchTable(dataTable) {
+    watchCells(dataTable);
     dataTable.on('datatable.init', () => {
         makeRowLink(dataTable.table)
     });
@@ -151,6 +175,20 @@ function watchTable(dataTable) {
     dataTable.on('datatable.page', () => {
         makeRowLink(dataTable.table)
     });
+}
+
+function watchCells(dataTable) {
+    const updateUrl = dataTable.table.getAttribute('data-url');
+
+    dataTable.table.querySelectorAll('[contenteditable]').forEach((input)=>{
+        input.addEventListener('input', async (e) => {
+            const attr = dataTable.table.querySelectorAll('th')[input.cellIndex].innerText;
+            const value = input.innerText;
+            const url = updateUrl + '/' + input.parentElement.getAttribute('data-row');
+            addMessage(await update(attr, value, url));
+        });
+});
+
 }
 
 function makeRowLink(table) {

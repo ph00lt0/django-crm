@@ -33,8 +33,12 @@ class ClientApiView(viewsets.ModelViewSet):
         return Client.objects.filter(company=self.request.user.employee.company)
 
     def update(self, request, *args, **kwargs):
-        print(request.data)
         instance = self.get_object()
+
+        # attr = list(request.data.keys())[0]
+        # request.data['details'] = {attr: request.data[attr]}
+        # print(request.data)
+
         serializer = self.get_serializer(instance, data=request.data, partial=True)
 
         if serializer.is_valid():

@@ -25,9 +25,20 @@ class InvoiceViewSet(viewsets.ModelViewSet):
         return queryset
 
 
-class ClientApiView(generics.ListCreateAPIView):
+class ClientApiView(viewsets.ModelViewSet):
     lookup_field = 'uuid'
     serializer_class = ClientSerializer
 
     def get_queryset(self):
         return Client.objects.filter(company=self.request.user.employee.company)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Updated client successfully"})
+
+        else:
+            return Response({"message": "Failed", "details": serializer.errors})

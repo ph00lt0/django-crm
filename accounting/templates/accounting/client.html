@@ -7,7 +7,7 @@
 
 
 {% block content %}
-    <span data-update-url="{% url 'accounting:client_update' client.uuid %}"></span>
+    <span data-update-url="{% url 'accounting:clients-api' client.uuid %}"></span>
     <input data-auto-update value="{{ client.name }}" name="name" placeholder="Name"/>
     <input data-auto-update value="{{ client.address }}" name="address" placeholder="Address"/>
     <input data-auto-update value="{{ client.zip }}" name="zip" placeholder="Zip"/>

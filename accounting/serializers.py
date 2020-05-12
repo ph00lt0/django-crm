@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.db import transaction
 from .models import Item, Invoice, InvoiceItem, Client, ClientDetail, Currency
 from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
 
 
 class ClientDetailSerializer(serializers.ModelSerializer):

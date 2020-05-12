@@ -1,4 +1,4 @@
-from rest_framework import viewsets, generics, permissions
+from rest_framework import viewsets, generics, permissions, status
 from rest_framework.response import Response
 from .models import Invoice, Client, InvoiceItem
 from .serializers import *
@@ -34,16 +34,22 @@ class ClientApiView(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
+        attr = list(request.data.keys())[0]
+        if not instance.company == request.user.employee.company:
+            return Response({"status': 'ERROR', message": "Failed"}, status=status.HTTP_404_NOT_FOUND)
 
-        # attr = list(request.data.keys())[0]
-        # request.data['details'] = {attr: request.data[attr]}
-        # print(request.data)
-
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"message": "Updated client successfully"})
+        if attr == 'name':
+            instance = self.get_serializer(instance, data=request.data, partial=True)
+            if instance.is_valid():
+                instance.save()
+                return Response({'status': 'SUCCESS', 'message': 'Updated client'}, status=status.HTTP_200_OK)
+            return Response({"status': 'ERROR', message": "Failed", "details": instance.errors})
 
         else:
-            return Response({"message": "Failed", "details": serializer.errors})
+            client_details = get_object_or_404(ClientDetail, pk=instance.pk)
+            serializer = ClientDetailSerializer(client_details, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'status': 'SUCCESS', 'message': 'Updated client'}, status=status.HTTP_200_OK)
+            return Response({'status': 'ERROR', "message": "Failed", "details": serializer.errors})
+

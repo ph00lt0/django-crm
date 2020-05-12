@@ -64,29 +64,6 @@ def client(request, uuid):
     return render(request, 'accounting/client.html', context)
 
 
-@login_required()
-@employee_check
-@api_view(['PUT'])
-def client_update(request, uuid):
-    client_item = get_object_or_404(Client, uuid=uuid)
-    if not client_item.company == request.user.employee.company:
-        return Response({'Updated client'}, status=status.HTTP_404_NOT_FOUND)
-
-    client_details = get_object_or_404(ClientDetail, pk=client_item.pk)
-    attr = request.data['attr']
-    value = request.data['value']
-    if attr == 'name' and value:
-        setattr(client_item, attr, value)
-        client_item.save()
-        return Response({'status': 'SUCCESS', 'message': 'Updated client'}, status=status.HTTP_200_OK)
-    elif attr and value:
-        setattr(client_details, attr, value)
-        client_details.save()
-        return Response({'status': 'SUCCESS', 'message': 'Updated client'}, status=status.HTTP_200_OK)
-    else:
-        return Response({'status': 'ERROR', 'message': 'Failed to updated client'}, status=status.HTTP_400_BAD_REQUEST)
-
-
 # @login_required()
 # @employee_check
 # @profile_completed

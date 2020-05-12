@@ -26,7 +26,6 @@ urlpatterns = [
       path('clients', views.clients, name='clients'),
       # path('clients/create', views.client_create, name='client_create'),
       path('clients/<uuid:uuid>', views.client, name='client'),
-      path('clients/update/<uuid:uuid>', views.client_update, name='client_update'),
 
       path('company/create', views.company_create, name='company_create'),
 

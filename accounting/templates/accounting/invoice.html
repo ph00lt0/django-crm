@@ -6,8 +6,8 @@
 
 
 {% block content %}
-
-    <table data-table data-url="{% url 'accounting:invoice-detail' uuid %}" data-row-link-base="{% url 'accounting:items' %}">
+{#data-update-item-url="{% url 'accounting:invoice-item' %}"#}
+    <table data-table data-url="{% url 'accounting:invoice-detail' uuid %}"  data-row-link-base="#">
     </table>
 
 

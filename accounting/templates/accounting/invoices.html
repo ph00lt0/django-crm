@@ -30,7 +30,7 @@
             {% endfor %}
         </select>
         <div data-subs>
-            <div data-sub-row="items">
+            <div data-sub-row>
                 <select data-item-pk data-choices-items>
                     <option value="">Select item</option>
                     {% for item in items %}
@@ -45,7 +45,7 @@
         </div>
         <button data-add-sub-row>Add item</button>
         <template data-sub-template>
-            <div data-sub-row="items">
+            <div data-sub-row>
                 <select data-item-pk data-choices-items>
                     <option value="">Select item</option>
                     {% for item in items %}

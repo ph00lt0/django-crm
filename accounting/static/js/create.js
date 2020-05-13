@@ -41,11 +41,8 @@ function create() {
             });
             const details = {};
             const items = [];
-            // let subName;
             // for all form rows with items
             form.querySelectorAll('[data-sub-row]').forEach((row) => {
-                // get name of subs items
-                // subName = row.getAttribute('data-sub-row');
                 // for all selected items in item row
                 row.querySelectorAll('[data-item]').forEach((item) => {
                     const itemsItem = {};
@@ -178,7 +175,12 @@ function watchTable(dataTable) {
 }
 
 function watchCells(dataTable) {
-    const updateUrl = dataTable.table.getAttribute('data-url');
+    let updateUrl;
+    if (dataTable.table.hasAttribute('data-update-item-url')) {
+        updateUrl = dataTable.table.getAttribute('data-update-item-url')
+    } else {
+        updateUrl = dataTable.table.getAttribute('data-url');
+    }
 
     dataTable.table.querySelectorAll('[contenteditable]').forEach((input)=>{
         input.addEventListener('input', async (e) => {

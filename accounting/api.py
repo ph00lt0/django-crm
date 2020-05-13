@@ -5,30 +5,6 @@ from .serializers import *
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 
-# class InvoiceItemViewSet(generics.UpdateAPIView):
-#     parser_classes = (MultiPartParser, FormParser, JSONParser)
-#     lookup_field = 'item'
-#
-#     def get_queryset(self):
-#         client_items = Client.objects.filter(company=self.request.user.employee.company)
-#         invoice_items = Invoice.objects.filter(client__in=client_items.values_list('pk'))
-#         queryset = InvoiceItem.objects.filter(invoice__in=invoice_items.values_list('pk'))
-#         return queryset
-#
-#     def update(self, request, *args, **kwargs):
-#         print(request.data)
-#         instance = self.get_object()
-#         if not instance.invoice.client.company == request.user.employee.company:
-#             return Response({"status': 'ERROR', message": "Failed"}, status=status.HTTP_404_NOT_FOUND)
-#
-#         instance = self.get_serializer(instance, data=request.data, partial=True)
-#         if instance.is_valid():
-#             instance.save()
-#             return Response({'status': 'SUCCESS', 'message': 'Updated client'}, status=status.HTTP_200_OK)
-#         return Response({"status': 'ERROR', message": "Failed", "details": instance.errors})
-
-
-# generics.ListCreateAPIView
 class InvoiceViewSet(viewsets.ModelViewSet):
     parser_classes = (MultiPartParser, FormParser, JSONParser)
     lookup_field = 'uuid'
@@ -59,7 +35,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             if instance_serializer.is_valid():
 
                 instance_serializer.save()
-                return Response({'status': 'SUCCESS', 'message': 'Updated client'}, status=status.HTTP_200_OK)
+                return Response({'status': 'SUCCESS', 'message': 'Updated invoice'}, status=status.HTTP_200_OK)
 
         else:
             item_item = get_object_or_404(Item, uuid=kwargs['item'])
@@ -68,7 +44,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             invoice_item_serializer = InvoiceItemSerializer(invoice_item, data=request.data, partial=True)
             if invoice_item_serializer.is_valid():
                 invoice_item_serializer.save()
-                return Response({'status': 'SUCCESS', 'message': 'Updated client'}, status=status.HTTP_200_OK)
+                return Response({'status': 'SUCCESS', 'message': 'Updated invoice item'}, status=status.HTTP_200_OK)
 
         return Response({"status': 'ERROR', message": "Failed", "details": instance.errors})
 

@@ -101,10 +101,6 @@ class InvoiceItemCreateItemSerializer(serializers.ModelSerializer):
         data['item'] = item_item
         print(data)
 
-        # todo: add validation of item belonging to user, context does not get passed to nested items.
-        # if not item_item.company == self.context['request'].user.employee.company:
-        #     return {'status': 'ERROR', 'message': 'Item not found'}
-
         item = self.Meta.model.objects.create(**data)
         return item
 

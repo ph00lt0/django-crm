@@ -26,9 +26,6 @@ class InvoiceViewSet(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
 
-        if not instance.client.company == request.user.employee.company:
-            return Response({"status': 'ERROR', message": "Failed"}, status=status.HTTP_404_NOT_FOUND)
-
         if 'item' not in kwargs:
             instance_serializer = self.get_serializer(instance, data=request.data, partial=True)
             if instance_serializer.is_valid():
@@ -68,8 +65,6 @@ class ClientViewSet(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         attr = list(request.data.keys())[0]
-        if not instance.company == request.user.employee.company:
-            return Response({"status': 'ERROR', message": "Failed"}, status=status.HTTP_404_NOT_FOUND)
 
         if attr == 'name':
             instance = self.get_serializer(instance, data=request.data, partial=True)

@@ -5,27 +5,6 @@ from .serializers import *
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 
-# class InvoiceDelete(generics.UpdateAPIView):
-#     parser_classes = (MultiPartParser, FormParser, JSONParser)
-#     lookup_field = 'uuid'
-#
-#     def get_queryset(self):
-#         client_items = Client.objects.filter(company=self.request.user.employee.company)
-#         queryset = Invoice.objects.filter(client__in=client_items.values_list('pk'))
-#         return queryset
-#
-#     def update(self, request, *args, **kwargs):
-#         instance = self.get_object()
-#         if not kwargs['item']:
-#             instance.delete()
-#             return Response({'status': 'SUCCESS', 'message': 'Updated invoice'}, status=status.HTTP_200_OK)
-#         else:
-#             item_item = get_object_or_404(Item, uuid=kwargs['item'])
-#             invoice_item = get_object_or_404(InvoiceItem, item=item_item, invoice=instance)
-#             invoice_item.delete()
-#             return Response({'status': 'SUCCESS', 'message': 'Updated invoice item'}, status=status.HTTP_200_OK)
-
-
 class InvoiceViewSet(viewsets.ModelViewSet):
     parser_classes = (MultiPartParser, FormParser, JSONParser)
     lookup_field = 'uuid'
@@ -100,7 +79,7 @@ class ClientViewSet(viewsets.ModelViewSet):
             return Response({"status': 'ERROR', message": "Failed", "details": instance.errors})
 
         else:
-            client_details = get_object_or_404(ClientDetail, pk=instance.pk)
+            client_details = get_object_or_404(ClientDetail, client=instance)
             serializer = ClientDetailSerializer(client_details, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()

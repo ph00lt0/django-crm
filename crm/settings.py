@@ -125,7 +125,4 @@ REST_FRAMEWORK = {
         'accounting.permissions.IsOwnerOrNoAccess',
         'rest_framework.permissions.IsAuthenticated',
     ],
-    # 'DEFAULT_AUTHENTICATION_CLASSES': [
-    #    'rest_framework.authentication.TokenAuthentication',
-    # ]
 }

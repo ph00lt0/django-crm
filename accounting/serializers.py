@@ -44,6 +44,19 @@ class ItemSerializer(serializers.ModelSerializer):
         fields = ['description', 'uuid', 'default_price']
 
 
+class ItemCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Item
+        fields = ['description', 'default_price']
+
+    def create(self, data):
+        try:
+            self.Meta.model.objects.create(company=self.context['request'].user.employee.company, **data)
+        except:
+            return {'status': 'ERROR', 'message': 'Could not create item'}
+        return {'status': 'SUCCESS', 'message': ''}
+
+
 class InvoiceItemSerializer(serializers.ModelSerializer):
     details = ItemSerializer(source='item')
 

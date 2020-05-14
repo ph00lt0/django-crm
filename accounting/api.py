@@ -1,6 +1,7 @@
 from rest_framework import viewsets, generics, permissions, status
 from .serializers import *
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from django.db.models import ProtectedError
 
 
 class InvoiceViewSet(viewsets.ModelViewSet):
@@ -82,4 +83,35 @@ class ClientViewSet(viewsets.ModelViewSet):
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.delete()
+        return Response({'status': 'SUCCESS', 'message': 'Updated invoice'}, status=status.HTTP_200_OK)
+
+
+class ItemViewSet(viewsets.ModelViewSet):
+    parser_classes = (MultiPartParser, FormParser, JSONParser)
+    lookup_field = 'uuid'
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return ItemCreateSerializer
+        else:
+            return ItemSerializer
+
+    def get_queryset(self):
+        queryset = Item.objects.filter(company=self.request.user.employee.company)
+        return queryset
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance = self.get_serializer(instance, data=request.data, partial=True)
+        if instance.is_valid():
+            instance.save()
+            return Response({'status': 'SUCCESS', 'message': 'Updated item'}, status=status.HTTP_200_OK)
+        return Response({"status': 'ERROR', message": "Failed", "details": instance.errors})
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        try:
+            instance.delete()
+        except ProtectedError:
+            return Response({'status': 'ERROR', 'message': 'Cannot remove items that are used inside an invoice'}, status=status.HTTP_406_NOT_ACCEPTABLE)
         return Response({'status': 'SUCCESS', 'message': 'Updated invoice'}, status=status.HTTP_200_OK)

@@ -10,10 +10,14 @@
         <p>{{ item.description }}</p>
     {% endfor %}
 
-    <section data-create-form class="create">
-        <span data-url="{% url 'accounting:item_create' %}"></span>
+
+    <table data-table data-url="{% url 'accounting:item-api' %}" data-row-link-base="#">
+    </table>
+
+    <section data-create-form>
+        <span data-url="{% url 'accounting:item-api' %}"></span>
         <input data-field type="text" name="description" placeholder="Description">
-        <input data-field type="number" name="price" placeholder="Default price">
+        <input data-field type="number" name="default_price" placeholder="Default price">
         <button data-submit>Create</button>
     </section>
 {% endblock %}

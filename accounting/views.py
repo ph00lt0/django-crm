@@ -150,4 +150,3 @@ def invoice(request, uuid):
         'uuid': uuid
     }
     return render(request, 'accounting/invoice.html', context)
-

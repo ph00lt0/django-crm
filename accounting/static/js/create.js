@@ -14,11 +14,21 @@ function update(attr, value, url) {
     return fetch(url, {
         method: 'PUT',
         headers: {
-          'X-CSRFToken': getCookie('csrftoken')
-         },
+            'X-CSRFToken': getCookie('csrftoken')
+        },
         body: formData,
     }).then(response => response.json())
-    .catch(error => error.json())
+        .catch(error => error.json())
+}
+
+function deleteRow(url) {
+    fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+    }).then(response => response.json())
+        .catch(error => error.json())
 }
 
 function get(url) {
@@ -58,8 +68,8 @@ function create() {
                     details[field.getAttribute('name')] = field.value;
                 });
             });
-            if (Object.keys(items).length > 0)  dataForm['items'] = items;
-            if (Object.keys(details).length > 0)  dataForm['details'] = details;
+            if (Object.keys(items).length > 0) dataForm['items'] = items;
+            if (Object.keys(details).length > 0) dataForm['details'] = details;
             addMessage(await post(JSON.stringify(dataForm), url));
         });
     });
@@ -83,8 +93,8 @@ function constructTableData(response) {
 
     function countColumn(column) {
         // check if UUID location is not a num since 0 equals false
-        if (column === 'uuid' && isNaN(UUIDlocation) ) UUIDlocation = columnCount;
         columnCount++;
+        if (column === 'uuid' && isNaN(UUIDlocation)) UUIDlocation = columnCount;
     }
 
     const data = {"data": []};
@@ -93,8 +103,8 @@ function constructTableData(response) {
     }
 
     for (let i = 0; i < response.length; i++) {
-        data.data[i] = [];
-        data.headings = [];
+        data.data[i] = ['a'];
+        data.headings = [''];
         // counting for position of column for uuid field. Which is used in the render of init tables
         for (let key in response[i]) {
             let value = response[i][key];
@@ -141,8 +151,16 @@ function initTables() {
             columns: [
                 {
                     select: columns, render: function (data, cell, row) {
-                        cell.setAttribute('contenteditable', 'true');
+                        cell.setAttribute('contenteditable', true);
+                        cell.setAttribute('clickable', true);
                         return data
+                    }
+                },
+                {
+                    select: 0, render: function (data, cell, row) {
+                        cell.setAttribute('contenteditable', false);
+                        cell.removeAttribute('clickable');
+                        return "<button data-delete>🗑</button>"
                     }
                 },
                 {
@@ -159,45 +177,63 @@ function initTables() {
 }
 
 function watchTable(dataTable) {
-    watchCells(dataTable);
     dataTable.on('datatable.init', () => {
-        makeRowLink(dataTable.table)
+        makeRowLink(dataTable.table);
+        addTableActions(dataTable.table);
+        watchCells(dataTable.table);
     });
     dataTable.on('datatable.update', () => {
-        makeRowLink(dataTable.table)
+        makeRowLink(dataTable.table);
+        addTableActions(dataTable.table);
+        watchCells(dataTable.table);
     });
     dataTable.on('datatable.sort', () => {
-        makeRowLink(dataTable.table)
+        makeRowLink(dataTable.table);
+        addTableActions(dataTable.table);
+        watchCells(dataTable.table);
     });
     dataTable.on('datatable.page', () => {
-        makeRowLink(dataTable.table)
+        makeRowLink(dataTable.table);
+        addTableActions(dataTable.table);
+        watchCells(dataTable.table);
     });
 }
 
-function watchCells(dataTable) {
+function addTableActions(table) {
+    const base = table.getAttribute('data-url');
+    table.querySelectorAll('[data-delete]').forEach((button) => {
+        button.addEventListener('click', () => {
+            const url = base + '/' + button.parentElement.parentElement.getAttribute('data-row');
+            addMessage(deleteRow(url));
+        });
+    });
+}
+
+function watchCells(table) {
     let updateUrl;
-    if (dataTable.table.hasAttribute('data-update-item-url')) {
-        updateUrl = dataTable.table.getAttribute('data-update-item-url')
+    if (table.hasAttribute('data-update-item-url')) {
+        updateUrl = table.getAttribute('data-update-item-url')
     } else {
-        updateUrl = dataTable.table.getAttribute('data-url');
+        updateUrl = table.getAttribute('data-url');
     }
 
-    dataTable.table.querySelectorAll('[contenteditable]').forEach((input)=>{
+    table.querySelectorAll('[contenteditable]').forEach((input) => {
         input.addEventListener('input', async (e) => {
-            const attr = dataTable.table.querySelectorAll('th')[input.cellIndex].innerText;
+            const attr = table.querySelectorAll('th')[input.cellIndex].innerText;
             const value = input.innerText;
             const url = updateUrl + '/' + input.parentElement.getAttribute('data-row');
             addMessage(await update(attr, value, url));
         });
-});
-
+    });
 }
 
 function makeRowLink(table) {
     const base = (table.hasAttribute('data-row-link-base') ? table.getAttribute('data-row-link-base') : '');
     table.querySelectorAll('[data-row]').forEach((row) => {
-        row.addEventListener('click', () => {
-            window.location.href = base + '/' + row.getAttribute('data-row');
+        row.addEventListener('click', (e) => {
+            if (e.target.attributes.clickable) {
+                window.location.href = base + '/' + row.getAttribute('data-row');
+            }
         });
     });
 }

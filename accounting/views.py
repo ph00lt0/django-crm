@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Currency, Client, ClientDetail, Company, CompanyDetail, Employee, Item, Invoice, InvoiceItem
+from .models import Currency, Client, ClientDetail, Company, CompanyDetail, Employee, Item
 from .decorators import employee_check
 
 from login.decorators import profile_completed
@@ -18,10 +18,7 @@ from login.decorators import profile_completed
 @login_required()
 @profile_completed
 def index(request):
-    context = {
-
-    }
-    return render(request, 'accounting/index.html', context)
+    return render(request, 'accounting/index.html')
 
 
 # Client
@@ -73,7 +70,6 @@ def company_create(request):
     if not request.method == "POST":
         return HttpResponse("Method not allowed", status=405)
 
-    # todo add try catch
     with transaction.atomic():
         Company.objects.create(
             name=request.POST['name'],
@@ -133,12 +129,10 @@ def item_create(request):
 def invoices(request):
     company = request.user.employee.company
     client_items = Client.objects.filter(company=company)
-    # invoice_items = Invoice.objects.filter(client__in=client_items.values_list('pk'))
     currency_items = Currency.objects.all()
     item_items = Item.objects.filter(company=company)
 
     context = {
-        # 'invoices': invoice_items,
         'default_currency': company.default_currency.pk,
         'clients': client_items,
         'currencies': currency_items,

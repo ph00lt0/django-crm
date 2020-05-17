@@ -9,9 +9,9 @@ class PasswordLessLogin:
         url = request.META['PATH_INFO'].split('/')
         if len(url) < 4:
             return None
-        # if str(url[3]) is not 'invoice':
-            # print(str(url[3]))
-            # return None
+        if str(url[3]) is not 'invoice':
+            print(str(url[3]))
+            return None
 
         try:
             invoice = Invoice.objects.get(uuid=url[4])

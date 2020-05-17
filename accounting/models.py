@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+
+from datetime import date
 import uuid
 
 
@@ -70,21 +72,6 @@ class Invoice(models.Model):
     currency = models.ForeignKey(Currency, on_delete=models.PROTECT)
 
 
-class InvoicePaid:
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
-    date = models.DateField()
-
-
-class InvoiceViewed:
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
-    date = models.DateField()
-
-
-class InvoiceSent:
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
-    date = models.DateField()
-
-
 class Item(models.Model):
     uuid = models.UUIDField(unique=True, default=uuid.uuid4)
     description = models.TextField()
@@ -97,3 +84,19 @@ class InvoiceItem(models.Model):
     item = models.ForeignKey(Item, related_name='invoice_item_item', on_delete=models.PROTECT)
     price = models.DecimalField(decimal_places=2, max_digits=20)
     amount = models.IntegerField()
+
+
+class InvoiceViewed(models.Model):
+    invoice = models.OneToOneField(Invoice, on_delete=models.CASCADE)
+    date = models.DateField(default=date.today)
+
+
+class InvoicePaid(models.Model):
+    invoice = models.OneToOneField(Invoice, on_delete=models.CASCADE)
+    date = models.DateField(default=date.today)
+
+
+class InvoiceSent(models.Model):
+    invoice = models.OneToOneField(Invoice, on_delete=models.CASCADE)
+    date = models.DateField(default=date.today)
+

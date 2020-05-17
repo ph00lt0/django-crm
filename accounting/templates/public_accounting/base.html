@@ -1,0 +1,41 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Accounting - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static "library/choices/choices.css" %}">
+    <link rel="stylesheet" href="https://unpkg.com/vanilla-datatables@1.6.16/dist/vanilla-dataTables.min.css">
+</head>
+<body>
+<ul class="messages" data-messages>
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+<nav>
+    <li>
+        <a href="{% url 'login:logout' %}">Log out</a>
+    </li>
+</nav>
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+<script src="{% static "library/choices/choices.js" %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+<script src="{% static "js/app.js" %}"></script>
+<script src="{% static "js/create.js" %}"></script>
+{% block scripts %}
+{% endblock %}
+
+</body>
+</html>

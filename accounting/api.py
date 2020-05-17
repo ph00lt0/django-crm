@@ -2,6 +2,24 @@ from rest_framework import viewsets, generics, permissions, status
 from .serializers import *
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.db.models import ProtectedError
+from django.contrib.auth import login, authenticate
+from rest_framework.permissions import AllowAny
+from .permissions import IsOwnerOrNoAccess
+
+
+class PublicInvoice(generics.RetrieveAPIView):
+    permission_classes = (AllowAny,)
+    lookup_field = 'uuid'
+    queryset = Invoice.objects.all()
+    serializer_class = InvoiceDetailSerializer
+
+    def get(self, request, *args, **kwargs):
+        user = authenticate(request)
+        if user is not None:
+            print('a')
+            login(request, user)
+            return self.get_object()
+        return Response({"ERROR": "User not authenticated"})
 
 
 class InvoiceViewSet(viewsets.ModelViewSet):
@@ -113,5 +131,6 @@ class ItemViewSet(viewsets.ModelViewSet):
         try:
             instance.delete()
         except ProtectedError:
-            return Response({'status': 'ERROR', 'message': 'Cannot remove items that are used inside an invoice'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response({'status': 'ERROR', 'message': 'Cannot remove items that are used inside an invoice'},
+                            status=status.HTTP_406_NOT_ACCEPTABLE)
         return Response({'status': 'SUCCESS', 'message': 'Updated invoice'}, status=status.HTTP_200_OK)

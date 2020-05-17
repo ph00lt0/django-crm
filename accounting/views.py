@@ -150,3 +150,10 @@ def invoice(request, uuid):
         'uuid': uuid
     }
     return render(request, 'accounting/invoice.html', context)
+
+
+def public_invoice(request, uuid):
+    context = {
+        'uuid': uuid
+    }
+    return render(request, 'public_accounting/invoice.html', context)

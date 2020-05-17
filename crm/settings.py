@@ -121,6 +121,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'accounting.auth_backend.PasswordLessLogin',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'accounting.permissions.IsOwnerOrNoAccess',
         'rest_framework.permissions.IsAuthenticated',

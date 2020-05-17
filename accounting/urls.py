@@ -33,11 +33,13 @@ urlpatterns = [
 
       path('invoices', views.invoices, name='invoices'),
       path('invoices/<uuid:uuid>', views.invoice, name='invoice'),
+      path('invoice/<uuid:uuid>', views.public_invoice, name='invoice'),
 
       path('api/v1/rest-auth/', include('rest_auth.urls')),
 
       path('api/v1/invoice', invoice_list, name='invoice-list'),
       path('api/v1/invoice/<uuid:uuid>', invoice_detail, name='invoice-detail'),
+      path('api/public/invoice/<uuid:uuid>', api.PublicInvoice.as_view(), name='invoice-public'),
       path('api/v1/invoice/<uuid:uuid>/<uuid:item>', invoice_detail, name='invoice-detail'),
 
       path('api/v1/item', api.ItemViewSet.as_view({'get': 'list', 'post': 'create'}), name='item-api'),

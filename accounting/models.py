@@ -58,6 +58,11 @@ class ClientDetail(models.Model):
     commerce = models.CharField(max_length=200)
 
 
+class ClientAccount(models.Model):
+    client = models.OneToOneField(Client, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+
 class Invoice(models.Model):
     uuid = models.UUIDField(unique=True, default=uuid.uuid4)
     client = models.ForeignKey(Client, on_delete=models.PROTECT)

@@ -1,0 +1,14 @@
+{% extends "public_accounting/base.html" %}
+
+{% block title %}
+    Invoices
+{% endblock %}
+
+
+{% block content %}
+{#data-update-item-url="{% url 'accounting:invoice-item' %}"#}
+    <table data-table data-url="{% url 'accounting:invoice-public' uuid %}"  data-row-link-base="#">
+    </table>
+
+
+{% endblock %}

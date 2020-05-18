@@ -13,13 +13,13 @@ class PublicInvoice(generics.RetrieveAPIView):
     queryset = Invoice.objects.all()
     serializer_class = InvoiceDetailSerializer
 
-    def get(self, request, *args, **kwargs):
-        user = authenticate(request)
-        if user is not None:
-            print('a')
-            login(request, user)
-            return self.get_object()
-        return Response({"ERROR": "User not authenticated"})
+    # def get(self, request, *args, **kwargs):
+    #     user = authenticate(request)
+    #     if user is not None:
+    #         print('a')
+    #         login(request, user)
+    #         return self.get_object()
+    #     return Response({"ERROR": "User not authenticated"})
 
 
 class InvoiceViewSet(viewsets.ModelViewSet):

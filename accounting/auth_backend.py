@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.auth import login
 from .models import ClientAccount, Invoice
 from django.conf import settings
 from rest_framework import HTTP_HEADER_ENCODING
@@ -6,11 +7,10 @@ from rest_framework import HTTP_HEADER_ENCODING
 
 class PasswordLessLogin:
     def authenticate(self, request, username=None, password=None):
-        url = request.META['PATH_INFO'].split('/')
+        url = request.path.split('/')
         if len(url) < 4:
             return None
-        if str(url[3]) is not 'invoice':
-            print(str(url[3]))
+        if not url[3] == "invoice":
             return None
 
         try:
@@ -18,7 +18,10 @@ class PasswordLessLogin:
             client = invoice.client
             client_account = ClientAccount.objects.get(client=client)
             user_pk = client_account.user.pk
-            user = self.get_user(user_pk)
+            print(user_pk)
+            user = User.objects.get(id=user_pk)
+            login(request, user)
+            # user = self.get_user(user_pk)
             print(user)
             return user
         except User.DoesNotExist:
@@ -35,6 +38,6 @@ class PasswordLessLogin:
 
     def get_user(self, user_id):
         try:
-            return User.objects.get(id=user_id)
+            return User.objects.get(pk=user_id)
         except User.DoesNotExist:
             return None

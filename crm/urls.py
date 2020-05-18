@@ -7,4 +7,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounting.urls')),
     path('accounts/', include('login.urls')),
+    # path('', include('drfpasswordless.urls')),
 ]

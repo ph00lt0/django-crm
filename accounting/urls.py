@@ -21,6 +21,16 @@ invoice_detail = api.InvoiceViewSet.as_view({
     'put': 'update'
 })
 
+bill_list = api.BillViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+
+bill_detail = api.BillViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update'
+})
+
 urlpatterns = [
       path('', views.index, name='index'),
       path('clients', views.clients, name='clients'),
@@ -34,12 +44,19 @@ urlpatterns = [
       path('invoices/<uuid:uuid>', views.invoice, name='invoice'),
       path('invoice/<uuid:uuid>', views.public_invoice, name='invoice'),
 
+      path('bills', views.bills, name='bills'),
+      path('bills/<uuid:uuid>', views.bill, name='bill'),
+
       path('api/v1/rest-auth/', include('rest_auth.urls')),
 
       path('api/v1/invoice', invoice_list, name='invoice-list'),
       path('api/v1/invoice/<uuid:uuid>', invoice_detail, name='invoice-detail'),
       path('api/public/invoice/<uuid:uuid>', api.PublicInvoice.as_view(), name='invoice-public'),
       path('api/v1/invoice/<uuid:uuid>/<uuid:item>', invoice_detail, name='invoice-detail'),
+
+      path('api/v1/bill', bill_list, name='bill-list'),
+      path('api/v1/bill/<uuid:uuid>', bill_detail, name='bill-detail'),
+      path('api/v1/bill/<uuid:uuid>/<uuid:item>', bill_detail, name='bill-detail'),
 
       path('api/v1/item', api.ItemViewSet.as_view({'get': 'list', 'post': 'create'}), name='item-api'),
       path('api/v1/item/<uuid:uuid>', api.ItemViewSet.as_view({'put': 'update'}), name='item-api'),

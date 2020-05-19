@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.db import transaction
-from .models import Item, Invoice, InvoiceItem, Client, ClientDetail, Vendor, VendorDetail, Currency
+from .models import Item, Invoice, InvoiceItem, Bill, BillItem, Client, ClientDetail, Vendor, VendorDetail, Currency
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 
@@ -188,3 +188,97 @@ class InvoiceCreateSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(item_serializer.errors)  # throws errors if any
 
         return invoice
+
+
+class BillItemSerializer(serializers.ModelSerializer):
+    details = ItemSerializer(source='item')
+
+    class Meta:
+        model = BillItem
+        fields = ['price', 'amount', 'details']
+
+
+class BillSerializer(serializers.ModelSerializer):
+    total = serializers.SerializerMethodField(method_name='get_total_price')
+    vendor = serializers.CharField(source="vendor.name")
+
+    class Meta:
+        model = Bill
+        fields = ['uuid', 'reference', 'vendor', 'total', 'currency']
+
+    def get_total_price(self, instance):
+        items = BillItem.objects.filter(bill=instance)
+        total = 0
+
+        for item_item in items:
+            total += item_item.price * item_item.amount
+        return total
+
+
+class BillDetailSerializer(serializers.ModelSerializer):
+    items = BillItemSerializer(many=True, label='items')
+    vendor = serializers.CharField(source="vendor.name")
+
+    class Meta:
+        model = Bill
+        fields = ['uuid', 'reference', 'vendor', 'items', 'currency']
+
+
+# validate input for items when creating new bill
+class BillItemCreateSerializer(serializers.ModelSerializer):
+    item = serializers.CharField(source="item.uuid")
+
+    class Meta:
+        model = BillItem
+        fields = ['price', 'amount', 'item']
+
+
+# validate input for items when creating new bill's items
+class BillItemCreateItemSerializer(serializers.ModelSerializer):
+    item = serializers.CharField(source="item.uuid")
+
+    class Meta:
+        model = BillItem
+        fields = ['price', 'amount', 'item', 'bill']
+
+    def create(self, data):
+        item_data = data.pop('item')
+        item_item = get_object_or_404(Item, uuid=item_data['uuid'])
+        data['item'] = item_item
+        print(data)
+
+        item = self.Meta.model.objects.create(**data)
+        return item
+
+
+class BillCreateSerializer(serializers.ModelSerializer):
+    items = BillItemCreateSerializer(many=True)
+    vendor = serializers.CharField(source="vendor.uuid")
+
+    class Meta:
+        model = Bill
+        fields = ['uuid', 'reference', 'vendor', 'items', 'currency']
+
+    @transaction.atomic
+    def create(self, data):
+        bill_items_data = data.pop('items')
+        vendor = data.pop('vendor')
+
+        vendor_item = get_object_or_404(Vendor, uuid=vendor['uuid'])
+        if not vendor_item.company == self.context['request'].user.employee.company:
+            return {'status': 'ERROR', 'message': 'Vendor not found'}
+
+        bill = self.Meta.model.objects.create(vendor=vendor_item, **data)
+
+        for bill_item in bill_items_data:
+            item_data = bill_item.pop('item')
+            bill_item['item'] = item_data['uuid']
+            bill_item['bill'] = bill.pk
+            item_serializer = BillItemCreateItemSerializer(data=bill_item)
+            if item_serializer.is_valid():  # PageSerializer does the validation
+                item_serializer.save()
+            else:
+                raise serializers.ValidationError(item_serializer.errors)  # throws errors if any
+
+        return bill
+

@@ -117,3 +117,17 @@ class VendorDetail(models.Model):
     phone = models.CharField(max_length=15)
     vat = models.CharField(max_length=200)
     commerce = models.CharField(max_length=200)
+
+
+class Bill(models.Model):
+    uuid = models.UUIDField(unique=True, default=uuid.uuid4)
+    vendor = models.ForeignKey(Vendor, on_delete=models.PROTECT)
+    reference = models.CharField(max_length=35)
+    currency = models.ForeignKey(Currency, on_delete=models.PROTECT)
+
+
+class BillItem(models.Model):
+    bill = models.ForeignKey(Bill, related_name='items', on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, related_name='bill_item_item', on_delete=models.PROTECT)
+    price = models.DecimalField(decimal_places=2, max_digits=20)
+    amount = models.IntegerField()

@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Currency, Client, ClientDetail, Company, CompanyDetail, Employee, Item
+from .models import Currency, Client, Vendor, Company, CompanyDetail, Employee, Item
 from .decorators import employee_check
 from .tasks import send_email_invoice
 
@@ -120,3 +120,33 @@ def public_invoice(request, uuid):
         'uuid': uuid
     }
     return render(request, 'public_accounting/invoice.html', context)
+
+
+# Bill
+@login_required()
+@employee_check
+@profile_completed
+def bills(request):
+    company = request.user.employee.company
+    vendor_items = Vendor.objects.filter(company=company)
+    currency_items = Currency.objects.all()
+    item_items = Item.objects.filter(company=company)
+
+    context = {
+        'default_currency': company.default_currency.pk,
+        'vendors': vendor_items,
+        'currencies': currency_items,
+        'items': item_items,
+    }
+
+    return render(request, 'accounting/bills.html', context)
+
+
+@login_required()
+@employee_check
+@profile_completed
+def bill(request, uuid):
+    context = {
+        'uuid': uuid
+    }
+    return render(request, 'accounting/bill.html', context)

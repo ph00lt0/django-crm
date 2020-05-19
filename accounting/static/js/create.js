@@ -79,7 +79,7 @@ function watchItems(form) {
     if (!form.querySelector('[data-add-sub-row]')) return;
     form.querySelector('[data-add-sub-row]').addEventListener('click', () => {
         const clone = form.querySelector('[data-sub-template]').content.cloneNode(true);
-        new Choices(clone.querySelector('[data-choices-items]'), {
+        new Choices(clone.querySelector('[data-choices]'), {
             addItems: true,
             searchPlaceholderValue: 'Type to search',
         });

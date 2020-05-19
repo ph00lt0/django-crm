@@ -72,6 +72,56 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             return Response({'status': 'SUCCESS', 'message': 'Updated invoice item'}, status=status.HTTP_200_OK)
 
 
+class BillViewSet(viewsets.ModelViewSet):
+    parser_classes = (MultiPartParser, FormParser, JSONParser)
+    lookup_field = 'uuid'
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return BillSerializer
+        if self.action == 'retrieve':
+            return BillDetailSerializer
+        if self.action == 'create':
+            return BillCreateSerializer
+        return BillDetailSerializer
+
+    def get_queryset(self):
+        vendor_items = Vendor.objects.filter(company=self.request.user.employee.company)
+        queryset = Bill.objects.filter(vendor__in=vendor_items.values_list('pk'))
+        return queryset
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        if 'item' not in kwargs:
+            instance_serializer = self.get_serializer(instance, data=request.data, partial=True)
+            if instance_serializer.is_valid():
+                instance_serializer.save()
+                return Response({'status': 'SUCCESS', 'message': 'Updated bill'}, status=status.HTTP_200_OK)
+            return Response({"status': 'ERROR', message": "Failed", "details": instance.errors})
+
+        else:
+            item_item = get_object_or_404(Item, uuid=kwargs['item'])
+            bill_item = get_object_or_404(BillItem, item=item_item, bill=instance)
+
+            bill_item_serializer = BillItemSerializer(bill_item, data=request.data, partial=True)
+            if bill_item_serializer.is_valid():
+                bill_item_serializer.save()
+                return Response({'status': 'SUCCESS', 'message': 'Updated bill item'}, status=status.HTTP_200_OK)
+            return Response({"status': 'ERROR', message": "Failed", "details": instance.errors})
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if 'item' not in kwargs:
+            instance.delete()
+            return Response({'status': 'SUCCESS', 'message': 'Updated bill'}, status=status.HTTP_200_OK)
+        else:
+            item_item = get_object_or_404(Item, uuid=kwargs['item'])
+            bill_item = get_object_or_404(BillItem, item=item_item, bill=instance)
+            bill_item.delete()
+            return Response({'status': 'SUCCESS', 'message': 'Updated bill item'}, status=status.HTTP_200_OK)
+
+
 class ClientViewSet(viewsets.ModelViewSet):
     lookup_field = 'uuid'
     serializer_class = ClientSerializer

@@ -1,23 +1,23 @@
 {% extends "accounting/base.html" %}
 
 {% block title %}
-    Invoices
+    Bills
 {% endblock %}
 
 
 {% block content %}
 
-    <table data-table data-url="{% url 'accounting:invoice-list' %}" data-row-link-base="{{ request.get_full_path }}">
+    <table data-table data-url="{% url 'accounting:bill-list' %}" data-row-link-base="{{ request.get_full_path }}">
     </table>
 
     <section data-create-form>
-        <span data-url="{% url 'accounting:invoice-list' %}"></span>
+        <span data-url="{% url 'accounting:bill-list' %}"></span>
         {% csrf_token %}
-        <select data-field data-choices name="client">
-            <option value="">Select client</option>
-            {% for client in clients %}
-                <option value="{{ client.uuid }}">
-                    {{ client.name }}
+        <select data-field data-choices name="vendor">
+            <option value="">Select vendor</option>
+            {% for vendor in vendors %}
+                <option value="{{ vendor.uuid }}">
+                    {{ vendor.name }}
                 </option>
             {% endfor %}
         </select>

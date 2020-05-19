@@ -1,0 +1,14 @@
+{% extends "accounting/base.html" %}
+
+{% block title %}
+    Bills
+{% endblock %}
+
+
+{% block content %}
+{#data-update-item-url="{% url 'accounting:bill-item' %}"#}
+    <table data-table data-url="{% url 'accounting:bill-detail' uuid %}"  data-row-link-base="#">
+    </table>
+
+
+{% endblock %}

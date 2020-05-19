@@ -100,3 +100,20 @@ class InvoiceSent(models.Model):
     invoice = models.OneToOneField(Invoice, on_delete=models.CASCADE)
     date = models.DateField(default=date.today)
 
+
+class Vendor(models.Model):
+    name = models.CharField(max_length=255)
+    uuid = models.UUIDField(unique=True, default=uuid.uuid4)
+    company = models.ForeignKey(Company, related_name='vendor_details', on_delete=models.PROTECT)
+
+
+class VendorDetail(models.Model):
+    vendor = models.OneToOneField(Vendor, related_name='details', on_delete=models.CASCADE)
+    address = models.CharField(max_length=255)
+    zip = models.CharField(max_length=8)
+    city = models.CharField(max_length=200)
+    country = models.CharField(max_length=200)
+    email = models.CharField(max_length=255)
+    phone = models.CharField(max_length=15)
+    vat = models.CharField(max_length=200)
+    commerce = models.CharField(max_length=200)

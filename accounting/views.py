@@ -19,7 +19,6 @@ from login.decorators import profile_completed
 @login_required()
 @profile_completed
 def index(request):
-    send_email_invoice()
     return render(request, 'accounting/index.html')
 
 
@@ -29,6 +28,14 @@ def index(request):
 @profile_completed
 def clients(request):
     return render(request, 'accounting/clients.html')
+
+
+# Vendors
+@login_required()
+@employee_check
+@profile_completed
+def vendors(request):
+    return render(request, 'accounting/vendors.html')
 
 
 # Company

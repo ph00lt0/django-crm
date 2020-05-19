@@ -1,0 +1,27 @@
+{% extends "accounting/base.html" %}
+
+{% block title %}
+    Vendors
+{% endblock %}
+
+
+{% block content %}
+    <table data-table data-url="{% url 'accounting:vendors-api' %}" data-row-link-base="#">
+    </table>
+
+    <section data-create-form>
+        <span data-url="{% url 'accounting:vendors-api' %}"></span>
+        <input data-field type="text" name="name" placeholder="Name">
+        <div data-sub-row>
+            <input data-sub-field type="text" name="address" placeholder="Address">
+            <input data-sub-field type="text" name="zip" placeholder="Zip">
+            <input data-sub-field type="text" name="city" placeholder="City">
+            <input data-sub-field type="text" name="country" placeholder="Country">
+            <input data-sub-field type="text" name="email" placeholder="Email">
+            <input data-sub-field type="text" name="phone" placeholder="Phone">
+            <input data-sub-field type="text" name="vat" placeholder="VAT-ID">
+            <input data-sub-field type="text" name="commerce" placeholder="Commerce ID">
+        </div>
+        <button data-submit>Create</button>
+    </section>
+{% endblock %}

@@ -24,6 +24,7 @@ invoice_detail = api.InvoiceViewSet.as_view({
 urlpatterns = [
       path('', views.index, name='index'),
       path('clients', views.clients, name='clients'),
+      path('vendors', views.vendors, name='vendors'),
 
       path('company/create', views.company_create, name='company_create'),
 
@@ -45,6 +46,11 @@ urlpatterns = [
 
       path('api/v1/client', api.ClientViewSet.as_view({'get': 'list', 'post': 'create'}), name='clients-api'),
       path('api/v1/client/<uuid:uuid>', api.ClientViewSet.as_view({'put': 'update'}), name='clients-api'),
+
+      path('api/v1/vendor', api.VendorViewSet.as_view({'get': 'list', 'post': 'create'}), name='vendors-api'),
+      path('api/v1/vendor/<uuid:uuid>', api.VendorViewSet.as_view({'put': 'update'}), name='vendors-api'),
+
+
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

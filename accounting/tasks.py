@@ -5,7 +5,6 @@ from django.conf import settings
 from time import sleep
 
 
-
 @shared_task
 def sleepy(duration):
     sleep(duration)
@@ -13,8 +12,8 @@ def sleepy(duration):
 
 
 @shared_task
-def send_email_invoice():
+def send_email_invoice(uuid):
     sender = settings.EMAIL_HOST_USER
-    print(sender)
-    send_mail('Celery mail working', 'This is the body', sender, ['test-wta3nodui@srv1.mail-tester.com'])
+    body = F"Open your invoice: {uuid}"
+    send_mail('New invoice ready', body, sender, ['test-m66dlxjn7@srv1.mail-tester.com'])
     return None

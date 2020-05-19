@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.db import transaction
-from .models import Item, Invoice, InvoiceItem, Client, ClientDetail, Currency
+from .models import Item, Invoice, InvoiceItem, Client, ClientDetail, Vendor, VendorDetail, Currency
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 
@@ -36,6 +36,39 @@ class ClientSerializer(serializers.ModelSerializer):
         else:
             raise serializers.ValidationError(detail_serializer.errors)  # throws errors if any
         return client
+
+
+class VendorDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VendorDetail
+        fields = ['address', 'zip', 'city', 'country', 'email', 'phone', 'vat', 'commerce']
+
+
+class VendorCreateDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VendorDetail
+        fields = ['vendor', 'address', 'zip', 'city', 'country', 'email', 'phone', 'vat', 'commerce']
+
+
+class VendorSerializer(serializers.ModelSerializer):
+    details = VendorDetailSerializer()
+
+    class Meta:
+        model = Vendor
+        fields = ['uuid', 'name', 'details']
+
+    @transaction.atomic
+    def create(self, data):
+        details_data = data.pop('details')
+        vendor = self.Meta.model.objects.create(company=self.context['request'].user.employee.company, **data)
+        details_data['vendor'] = vendor.pk
+
+        detail_serializer = VendorCreateDetailSerializer(data=details_data)
+        if detail_serializer.is_valid():  # PageSerializer does the validation
+            detail_serializer.save()
+        else:
+            raise serializers.ValidationError(detail_serializer.errors)  # throws errors if any
+        return vendor
 
 
 class ItemSerializer(serializers.ModelSerializer):

@@ -101,7 +101,39 @@ class ClientViewSet(viewsets.ModelViewSet):
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.delete()
-        return Response({'status': 'SUCCESS', 'message': 'Updated invoice'}, status=status.HTTP_200_OK)
+        return Response({'status': 'SUCCESS', 'message': 'Delete client'}, status=status.HTTP_200_OK)
+
+
+class VendorViewSet(viewsets.ModelViewSet):
+    lookup_field = 'uuid'
+    serializer_class = VendorSerializer
+
+    def get_queryset(self):
+        return Vendor.objects.filter(company=self.request.user.employee.company)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        attr = list(request.data.keys())[0]
+
+        if attr == 'name':
+            instance = self.get_serializer(instance, data=request.data, partial=True)
+            if instance.is_valid():
+                instance.save()
+                return Response({'status': 'SUCCESS', 'message': 'Updated vendor'}, status=status.HTTP_200_OK)
+            return Response({"status': 'ERROR', message": "Failed", "details": instance.errors})
+
+        else:
+            vendor_details = get_object_or_404(VendorDetail, vendor=instance)
+            serializer = VendorDetailSerializer(vendor_details, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'status': 'SUCCESS', 'message': 'Updated vendor'}, status=status.HTTP_200_OK)
+            return Response({'status': 'ERROR', "message": "Failed", "details": serializer.errors})
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        return Response({'status': 'SUCCESS', 'message': 'Deleted vendor'}, status=status.HTTP_200_OK)
 
 
 class ItemViewSet(viewsets.ModelViewSet):

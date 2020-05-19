@@ -11,6 +11,7 @@ from rest_framework import status
 
 from .models import Currency, Client, ClientDetail, Company, CompanyDetail, Employee, Item
 from .decorators import employee_check
+from .tasks import send_email_invoice
 
 from login.decorators import profile_completed
 
@@ -18,6 +19,7 @@ from login.decorators import profile_completed
 @login_required()
 @profile_completed
 def index(request):
+    send_email_invoice()
     return render(request, 'accounting/index.html')
 
 
@@ -26,35 +28,7 @@ def index(request):
 @employee_check
 @profile_completed
 def clients(request):
-    company = request.user.employee.company
-
-    client_items = Client.objects.filter(company=company)
-
-    context = {
-        'clients': client_items
-    }
-
-    return render(request, 'accounting/clients.html', context)
-
-
-@login_required()
-@employee_check
-@profile_completed
-def client(request, uuid):
-    client_item = get_object_or_404(Client, uuid=uuid)
-    if not client_item.company == request.user.employee.company:
-        return HttpResponseRedirect(reverse('accounting:clients'))
-
-    client_details = get_object_or_404(ClientDetail, client=client_item)
-    client_details.name = client_item.name
-    client_details.uuid = client_item.uuid
-
-    context = {
-        'uuid': uuid,
-        'client': client_details
-    }
-
-    return render(request, 'accounting/client.html', context)
+    return render(request, 'accounting/clients.html')
 
 
 # Company
@@ -101,25 +75,7 @@ def company_create(request):
 @employee_check
 @profile_completed
 def items(request):
-    item_items = Item.objects.filter(company=request.user.employee.company)
-
-    context = {
-        'items': item_items
-    }
-
-    return render(request, 'accounting/items.html', context)
-
-
-@login_required()
-@employee_check
-@api_view(['POST'])
-def item_create(request):
-    Item.objects.create(
-        description=request.data['description'],
-        default_price=request.data['price'],
-        company=request.user.employee.company
-    )
-    return Response({'status': 'SUCCESS', 'message': 'Item created'}, status=status.HTTP_200_OK)
+    return render(request, 'accounting/items.html')
 
 
 # Invoice

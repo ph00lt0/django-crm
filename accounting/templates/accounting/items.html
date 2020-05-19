@@ -6,11 +6,6 @@
 {% endblock %}
 
 {% block content %}
-    {% for item in items %}
-        <p>{{ item.description }}</p>
-    {% endfor %}
-
-
     <table data-table data-url="{% url 'accounting:item-api' %}" data-row-link-base="#">
     </table>
 

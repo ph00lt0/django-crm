@@ -24,12 +24,10 @@ invoice_detail = api.InvoiceViewSet.as_view({
 urlpatterns = [
       path('', views.index, name='index'),
       path('clients', views.clients, name='clients'),
-      path('clients/<uuid:uuid>', views.client, name='client'),
 
       path('company/create', views.company_create, name='company_create'),
 
       path('items', views.items, name='items'),
-      path('items/create', views.item_create, name='item_create'),
 
       path('invoices', views.invoices, name='invoices'),
       path('invoices/<uuid:uuid>', views.invoice, name='invoice'),

@@ -13,13 +13,8 @@
     <section data-create-form>
         <span data-url="{% url 'accounting:invoice-list' %}"></span>
         {% csrf_token %}
-        <select data-field data-choices name="client">
+        <select data-field data-choices name="client" data-url="{% url 'accounting:clients-api' %}">
             <option value="">Select client</option>
-            {% for client in clients %}
-                <option value="{{ client.uuid }}">
-                    {{ client.name }}
-                </option>
-            {% endfor %}
         </select>
         <input data-field type="text" name="reference" placeholder="reference">
         <select data-field name="currency">

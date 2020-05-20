@@ -87,15 +87,11 @@ def items(request):
 @profile_completed
 def invoices(request):
     company = request.user.employee.company
-    client_items = Client.objects.filter(company=company)
     currency_items = Currency.objects.all()
-    item_items = Item.objects.filter(company=company)
 
     context = {
         'default_currency': company.default_currency.pk,
-        'clients': client_items,
         'currencies': currency_items,
-        'items': item_items,
     }
 
     return render(request, 'accounting/invoices.html', context)
@@ -124,15 +120,11 @@ def public_invoice(request, uuid):
 @profile_completed
 def bills(request):
     company = request.user.employee.company
-    vendor_items = Vendor.objects.filter(company=company)
     currency_items = Currency.objects.all()
-    item_items = Item.objects.filter(company=company)
 
     context = {
         'default_currency': company.default_currency.pk,
-        'vendors': vendor_items,
         'currencies': currency_items,
-        'items': item_items,
     }
     return render(request, 'accounting/bills.html', context)
 

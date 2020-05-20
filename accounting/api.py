@@ -58,9 +58,7 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             except InvoiceItem.DoesNotExist:
                 data = request.data
                 data['invoice'] = instance.pk
-                # data['details'] = {"uuid": kwargs['item']}
                 data['item'] = str(kwargs['item'])
-                print(data)
                 invoice_item_serializer = InvoiceItemCreateItemSerializer(data=data)
 
             if invoice_item_serializer.is_valid():
@@ -110,13 +108,19 @@ class BillViewSet(viewsets.ModelViewSet):
 
         else:
             item_item = get_object_or_404(Item, uuid=kwargs['item'])
-            bill_item = get_object_or_404(BillItem, item=item_item, bill=instance)
+            try:
+                bill_item = BillItem.objects.get(item=item_item, bill=instance)
+                bill_item_serializer = BillItemSerializer(bill_item, data=request.data, partial=True)
+            except BillItem.DoesNotExist:
+                data = request.data
+                data['bill'] = instance.pk
+                data['item'] = str(kwargs['item'])
+                bill_item_serializer = BillItemCreateItemSerializer(data=data)
 
-            bill_item_serializer = BillItemSerializer(bill_item, data=request.data, partial=True)
             if bill_item_serializer.is_valid():
                 bill_item_serializer.save()
                 return Response({'status': 'SUCCESS', 'message': 'Updated bill item'}, status=status.HTTP_200_OK)
-            return Response({"status': 'ERROR', message": "Failed", "details": instance.errors})
+            return Response({"status': 'ERROR', message": "Failed", "details": bill_item_serializer.errors})
 
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()

@@ -8,23 +8,18 @@
 {% block content %}
     <table data-table data-url="{% url 'accounting:invoice-detail' uuid %}" data-row-link-base="#">
     </table>
-    <section data-create-form>
+    <section data-update-form>
         <span data-url="{% url 'accounting:invoice-detail' uuid %}"></span>
         {% csrf_token %}
-
-        <div data-subs>
-            <div data-sub-row>
-                <select data-item-pk data-choices data-url="{% url 'accounting:item-api' %}">
-                    <option value="">Select item</option>
-                    {% for item in items %}
-                        <option value="{{ item.uuid }}" data-price="{{ item.default_price }}">
-                            {{ item.description }}
-                        </option>
-                    {% endfor %}
-                </select>
-                <input data-sub-item-field type="number" name="amount" placeholder="Amount">
-                <input data-sub-item-field type="number" name="price" placeholder="price">
-            </div>
-        </div>
+        <select data-item-pk data-choices data-url="{% url 'accounting:item-api' %}">
+            <option value="">Select item</option>
+            {% for item in items %}
+                <option value="{{ item.uuid }}" data-price="{{ item.default_price }}">
+                    {{ item.description }}
+                </option>
+            {% endfor %}
+        </select>
+        <input data-field type="number" name="amount" placeholder="Amount">
+        <input data-field type="number" name="price" placeholder="price">
         <button data-submit>Add item</button>
     </section>{% endblock %}

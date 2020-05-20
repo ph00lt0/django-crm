@@ -37,7 +37,7 @@ function get(url) {
     }).then(response => response.json()).catch(error => error.json())
 }
 
-function create() {
+function initCreateForm() {
     document.querySelectorAll('[data-create-form]').forEach((form) => {
         watchItems(form);
         const url = form.querySelector('[data-url]').getAttribute('data-url');
@@ -74,11 +74,29 @@ function create() {
     });
 }
 
+// update forms are to add items to existing invoices and bills
+function initUpdateForm() {
+    document.querySelectorAll('[data-update-form]').forEach((form) => {
+        watchItems(form);
+        const base = form.querySelector('[data-url]').getAttribute('data-url');
+        const formData = new FormData();
+        const dataForm = {};
+        form.querySelector('[data-submit]').addEventListener('click', async () => {
+            const url = base + '/' + form.querySelector('[data-item-pk]').value;
+            form.querySelectorAll('[data-field]').forEach((field) => {
+                formData.append(field.getAttribute('name'), field.value);
+                dataForm[field.getAttribute('name')] = field.value;
+            });
+            addMessage(await post(JSON.stringify(dataForm), url));
+        });
+    });
+}
+
 function watchItems(form) {
     if (!form.querySelector('[data-add-sub-row]')) return;
     form.querySelector('[data-add-sub-row]').addEventListener('click', () => {
         const clone = form.querySelector('[data-sub-template]').content.cloneNode(true);
-        const choicesElm = elm.querySelector('[data-choices]');
+        const choicesElm = clone.querySelector('[data-choices]');
         initChoices(choicesElm);
         form.querySelector('[data-subs]').appendChild(clone);
     });
@@ -252,7 +270,8 @@ function makeRowLink(table) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    create();
+    initCreateForm();
+    initUpdateForm();
     initTables();
     document.querySelectorAll('[data-choices]').forEach((selector) => {
         initChoices(selector);

@@ -52,13 +52,21 @@ class InvoiceViewSet(viewsets.ModelViewSet):
 
         else:
             item_item = get_object_or_404(Item, uuid=kwargs['item'])
-            invoice_item = get_object_or_404(InvoiceItem, item=item_item, invoice=instance)
+            try:
+                invoice_item = InvoiceItem.objects.get(item=item_item, invoice=instance)
+                invoice_item_serializer = InvoiceItemSerializer(invoice_item, data=request.data, partial=True)
+            except InvoiceItem.DoesNotExist:
+                data = request.data
+                data['invoice'] = instance.pk
+                # data['details'] = {"uuid": kwargs['item']}
+                data['item'] = str(kwargs['item'])
+                print(data)
+                invoice_item_serializer = InvoiceItemCreateItemSerializer(data=data)
 
-            invoice_item_serializer = InvoiceItemSerializer(invoice_item, data=request.data, partial=True)
             if invoice_item_serializer.is_valid():
                 invoice_item_serializer.save()
                 return Response({'status': 'SUCCESS', 'message': 'Updated invoice item'}, status=status.HTTP_200_OK)
-            return Response({"status': 'ERROR', message": "Failed", "details": instance.errors})
+            return Response({"status': 'ERROR', message": "Failed", "details": invoice_item_serializer.errors})
 
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()

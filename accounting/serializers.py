@@ -83,8 +83,9 @@ class ItemCreateSerializer(serializers.ModelSerializer):
         fields = ['description', 'default_price']
 
     def create(self, data):
+        data['company'] = self.context['request'].user.employee.company
         try:
-            self.Meta.model.objects.create(company=self.context['request'].user.employee.company, **data)
+            self.Meta.model.objects.create(**data)
         except:
             return {'status': 'ERROR', 'message': 'Could not create item'}
         return {'status': 'SUCCESS', 'message': ''}
@@ -123,6 +124,22 @@ class InvoiceDetailSerializer(serializers.ModelSerializer):
         model = Invoice
         fields = ['uuid', 'reference', 'client', 'items', 'currency']
 
+    # def update(self, request, *args, **kwargs):
+    #     invoice = Invoice.objects.get(uuid=self['uuid'].value)
+    #     for invoice_item in args:
+    #         print(invoice_item)
+    #         invoice_item['invoice'] = invoice.pk
+    #         items = invoice_item['items']
+    #         invoice_item['price'] = items[0]['price']
+    #         invoice_item['amount'] = items[0]['amount']
+    #
+    #         item_serializer = InvoiceItemCreateItemSerializer(data=invoice_item)
+    #         if item_serializer.is_valid():  # PageSerializer does the validation
+    #             item_serializer.save()
+    #         else:
+    #             raise serializers.ValidationError(item_serializer.errors)  # throws errors if any
+    #         return self
+
 
 # validate input for items when creating new invoice
 class InvoiceItemCreateSerializer(serializers.ModelSerializer):
@@ -131,6 +148,14 @@ class InvoiceItemCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = InvoiceItem
         fields = ['price', 'amount', 'item']
+
+    # def create(self, data):
+    #     item_data = data.pop('item')
+    #     item_item = get_object_or_404(Item, uuid=item_data['uuid'])
+    #     data['item'] = item_item
+    #
+    #     item = self.Meta.model.objects.create(**data)
+    #     return item
 
 
 # validate input for items when creating new invoice's items
@@ -145,7 +170,6 @@ class InvoiceItemCreateItemSerializer(serializers.ModelSerializer):
         item_data = data.pop('item')
         item_item = get_object_or_404(Item, uuid=item_data['uuid'])
         data['item'] = item_item
-        print(data)
 
         item = self.Meta.model.objects.create(**data)
         return item
@@ -281,4 +305,3 @@ class BillCreateSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(item_serializer.errors)  # throws errors if any
 
         return bill
-

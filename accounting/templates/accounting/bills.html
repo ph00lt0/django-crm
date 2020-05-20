@@ -31,13 +31,8 @@
         </select>
         <div data-subs>
             <div data-sub-row>
-                <select data-item-pk data-choices>
+                <select data-item-pk data-choices data-url="{% url 'accounting:item-api' %}">
                     <option value="">Select item</option>
-                    {% for item in items %}
-                        <option value="{{ item.uuid }}" data-price="{{ item.default_price }}">
-                            {{ item.description }}
-                        </option>
-                    {% endfor %}
                 </select>
                 <input data-sub-item-field type="number" name="amount" placeholder="Amount">
                 <input data-sub-item-field type="number" name="price" placeholder="price">
@@ -46,13 +41,8 @@
         <button data-add-sub-row>Add item</button>
         <template data-sub-template>
             <div data-sub-row>
-                <select data-item-pk data-choices>
+                <select data-item-pk data-choices data-url="{% url 'accounting:item-api' %}">
                     <option value="">Select item</option>
-                    {% for item in items %}
-                        <option value="{{ item.uuid }}" data-price="{{ item.default_price }}">
-                            {{ item.description }}
-                        </option>
-                    {% endfor %}
                 </select>
                 <input data-sub-item-field type="number" name="amount" placeholder="Amount">
                 <input data-sub-item-field type="number" name="price" placeholder="price">

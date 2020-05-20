@@ -113,7 +113,7 @@ function initChoices(choicesElm) {
         const items = [];
         response.forEach( (item)=> {
             if (item['name']) items.push({"value": item['uuid'], "label": item['name']});
-            if (item['description']) items.push({"value": item['uuid'], "label": item['name']});
+            if (item['description']) items.push({"value": item['uuid'], "label": item['description']});
         });
         return items;
     });

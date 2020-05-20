@@ -122,6 +122,7 @@ class VendorDetail(models.Model):
 class Bill(models.Model):
     uuid = models.UUIDField(unique=True, default=uuid.uuid4)
     vendor = models.ForeignKey(Vendor, on_delete=models.PROTECT)
+    date = models.DateField(default=date.today)
     reference = models.CharField(max_length=35)
     currency = models.ForeignKey(Currency, on_delete=models.PROTECT)
 

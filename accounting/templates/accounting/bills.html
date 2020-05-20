@@ -13,6 +13,7 @@
     <section data-create-form>
         <span data-url="{% url 'accounting:bill-list' %}"></span>
         {% csrf_token %}
+        <input data-field type="text" name="date" placeholder="Date">
         <select data-field data-choices name="vendor" data-url="{% url 'accounting:vendors-api' %}">
             <option value="">Select vendor</option>
         </select>

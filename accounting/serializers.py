@@ -228,7 +228,7 @@ class BillSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bill
-        fields = ['uuid', 'reference', 'vendor', 'total', 'currency']
+        fields = ['uuid', 'date', 'reference', 'vendor', 'total', 'currency']
 
     def get_total_price(self, instance):
         items = BillItem.objects.filter(bill=instance)
@@ -245,7 +245,7 @@ class BillDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bill
-        fields = ['uuid', 'reference', 'vendor', 'items', 'currency']
+        fields = ['uuid', 'date', 'reference', 'vendor', 'items', 'currency']
 
 
 # validate input for items when creating new bill
@@ -281,7 +281,7 @@ class BillCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bill
-        fields = ['uuid', 'reference', 'vendor', 'items', 'currency']
+        fields = ['uuid', 'date', 'reference', 'vendor', 'items', 'currency']
 
     @transaction.atomic
     def create(self, data):

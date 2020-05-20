@@ -34,7 +34,6 @@ function deleteRow(url) {
 function get(url) {
     return fetch(url, {
         method: 'GET',
-        headers: {'X-CSRFToken': getCookie('csrftoken')},
     }).then(response => response.json()).catch(error => error.json())
 }
 
@@ -79,11 +78,25 @@ function watchItems(form) {
     if (!form.querySelector('[data-add-sub-row]')) return;
     form.querySelector('[data-add-sub-row]').addEventListener('click', () => {
         const clone = form.querySelector('[data-sub-template]').content.cloneNode(true);
-        new Choices(clone.querySelector('[data-choices]'), {
-            addItems: true,
-            searchPlaceholderValue: 'Type to search',
-        });
+        const choicesElm = elm.querySelector('[data-choices]');
+        initChoices(choicesElm);
         form.querySelector('[data-subs]').appendChild(clone);
+    });
+}
+
+function initChoices(choicesElm) {
+    const choices = new Choices(choicesElm, {
+        addItems: true,
+        searchPlaceholderValue: 'Type to search',
+    });
+    if (!choicesElm.hasAttribute('data-url')) return;
+    choices.setChoices(async () => {
+        const response = await get(choicesElm.getAttribute('data-url'));
+        const items = [];
+        response.forEach( (item)=> {
+            items.push({"value": item['uuid'], "label": item['description'] })
+        });
+        return items;
     });
 }
 
@@ -241,4 +254,7 @@ function makeRowLink(table) {
 window.addEventListener('DOMContentLoaded', () => {
     create();
     initTables();
+    document.querySelectorAll('[data-choices]').forEach((selector) => {
+        initChoices(selector);
+    });
 });

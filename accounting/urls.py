@@ -18,6 +18,7 @@ invoice_list = api.InvoiceViewSet.as_view({
 
 invoice_detail = api.InvoiceViewSet.as_view({
     'get': 'retrieve',
+    'post': 'update',
     'put': 'update'
 })
 
@@ -28,6 +29,7 @@ bill_list = api.BillViewSet.as_view({
 
 bill_detail = api.BillViewSet.as_view({
     'get': 'retrieve',
+    'post': 'update',
     'put': 'update'
 })
 

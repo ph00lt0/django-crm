@@ -10,7 +10,3 @@ function addMessage(response) {
     message.innerText = response.message;
     document.querySelector('[data-messages]').prepend(message);
 }
-
-document.querySelectorAll('[data-choices]').forEach( (selector) => {
-    new Choices(selector, {searchPlaceholderValue: 'Type to search'})
-});

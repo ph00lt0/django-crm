@@ -6,9 +6,25 @@
 
 
 {% block content %}
-{#data-update-item-url="{% url 'accounting:invoice-item' %}"#}
-    <table data-table data-url="{% url 'accounting:invoice-detail' uuid %}"  data-row-link-base="#">
+    <table data-table data-url="{% url 'accounting:invoice-detail' uuid %}" data-row-link-base="#">
     </table>
+    <section data-create-form>
+        <span data-url="{% url 'accounting:invoice-detail' uuid %}"></span>
+        {% csrf_token %}
 
-
-{% endblock %}
+        <div data-subs>
+            <div data-sub-row>
+                <select data-item-pk data-choices data-url="{% url 'accounting:item-api' %}">
+                    <option value="">Select item</option>
+                    {% for item in items %}
+                        <option value="{{ item.uuid }}" data-price="{{ item.default_price }}">
+                            {{ item.description }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <input data-sub-item-field type="number" name="amount" placeholder="Amount">
+                <input data-sub-item-field type="number" name="price" placeholder="price">
+            </div>
+        </div>
+        <button data-submit>Add item</button>
+    </section>{% endblock %}

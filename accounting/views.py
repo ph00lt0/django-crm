@@ -5,10 +5,6 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-
 from .models import Currency, Client, Vendor, Company, CompanyDetail, Employee, Item
 from .decorators import employee_check
 from .tasks import send_email_invoice
@@ -138,7 +134,6 @@ def bills(request):
         'currencies': currency_items,
         'items': item_items,
     }
-
     return render(request, 'accounting/bills.html', context)
 
 

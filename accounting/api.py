@@ -228,3 +228,8 @@ class ItemViewSet(viewsets.ModelViewSet):
             return Response({'status': 'ERROR', 'message': 'Cannot remove items that are used inside an invoice'},
                             status=status.HTTP_406_NOT_ACCEPTABLE)
         return Response({'status': 'SUCCESS', 'message': 'Updated invoice'}, status=status.HTTP_200_OK)
+
+
+class CurrencyView(generics.ListAPIView):
+    queryset = Currency.objects.all()
+    serializer_class = CurrencySerializer

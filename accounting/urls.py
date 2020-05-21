@@ -69,8 +69,8 @@ urlpatterns = [
       path('api/v1/vendor', api.VendorViewSet.as_view({'get': 'list', 'post': 'create'}), name='vendors-api'),
       path('api/v1/vendor/<uuid:uuid>', api.VendorViewSet.as_view({'put': 'update'}), name='vendors-api'),
 
+      path('api/public/currency', api.CurrencyView.as_view(), name='currency-api'),
 
-
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+  ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # urlpatterns += router.urls

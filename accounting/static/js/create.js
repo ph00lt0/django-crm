@@ -112,7 +112,9 @@ function initChoices(choicesElm) {
         const response = await get(choicesElm.getAttribute('data-url'));
         const items = [];
         response.forEach( (item)=> {
-            if (item['name']) items.push({"value": item['uuid'], "label": item['name']});
+            if (item['name'] + item['uuid'])  items.push({"value": item['uuid'], "label": item['name']});
+            if (item['name'] + item['pk'])
+                items.push({"value": item['pk'], "selected": item['selected'], "label": item['name']});
             if (item['description']) items.push({"value": item['uuid'], "label": item['description']});
         });
         return items;

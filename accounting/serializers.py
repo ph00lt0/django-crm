@@ -305,3 +305,15 @@ class BillCreateSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(item_serializer.errors)  # throws errors if any
 
         return bill
+
+
+class CurrencySerializer(serializers.ModelSerializer):
+    selected = serializers.SerializerMethodField(method_name='get_default_currency')
+
+    class Meta:
+        model = Currency
+        fields = ['name', 'code', 'pk', 'selected']
+
+    def get_default_currency(self, instance):
+        default = True if self.context['request'].user.employee.company.default_currency.pk else False
+        return default

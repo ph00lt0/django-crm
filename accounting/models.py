@@ -36,10 +36,10 @@ class CompanyDetail(models.Model):
 class BankAccount(models.Model):
     uuid = models.UUIDField(unique=True, default=uuid.uuid4)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    amount = models.IntegerField()
+    start_amount = models.IntegerField()
     name = models.CharField(max_length=200)
     iban = models.CharField(max_length=34)
-    currency_id = models.ForeignKey(Currency, on_delete=models.PROTECT)
+    currency = models.ForeignKey(Currency, on_delete=models.PROTECT)
 
 
 class Client(models.Model):

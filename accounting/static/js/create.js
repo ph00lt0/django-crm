@@ -145,9 +145,11 @@ function constructTableData(response) {
             // if object with details go though it
             if (typeof value === 'object') {
                 for (let oKey in value) {
-                    data.headings.push(oKey);
-                    data.data[i].push(value[oKey]);
-                    countColumn(oKey);
+                    if (typeof value[oKey] !== 'object') {
+                        data.headings.push(oKey);
+                        data.data[i].push(value[oKey]);
+                        countColumn(oKey);
+                    }
                 }
             } else {
                 data.headings.push(key);
@@ -161,25 +163,33 @@ function constructTableData(response) {
 
 function initTables() {
     document.querySelectorAll('[data-table]').forEach(async (elm) => {
+        if (elm.hasAttribute('data-table-items')) return;
         if (!elm.hasAttribute('data-url')) {
             return addMessage({'status': 'ERROR', 'message': 'No data url'})
         }
         const response = await get(elm.getAttribute('data-url'));
         if (response.status === "ERROR") return addMessage(response);
 
-        let dataAndUUIDlocation;
-        // if response has item rows
+        const config = getTableConfig(response);
+        let dataTable = new simpleDatatables.DataTable(elm, config);
+        watchTable(dataTable);
+
         if (response.items) {
-            dataAndUUIDlocation = constructTableData(response.items);
-        } else {
-            dataAndUUIDlocation = constructTableData(response);
+            const config = getTableConfig(response.items);
+            const itemsTable = document.querySelector('[data-table-items]');
+            let dataTable = new simpleDatatables.DataTable(itemsTable, config);
+            watchTable(dataTable);
         }
-        const data = dataAndUUIDlocation[0]; // position in return
-        const UUIDlocation = dataAndUUIDlocation[1]; // position in return
+    });
+}
 
-        const columns = Array.apply(null, {length: data.headings.length}).map(Number.call, Number);
+function getTableConfig(tableData) {
+            const dataAndUUIDlocation = constructTableData(tableData);
+            const data = dataAndUUIDlocation[0]; // position in return
+            const UUIDlocation = dataAndUUIDlocation[1]; // position in return
+            const columns = Array.apply(null, {length: data.headings.length}).map(Number.call, Number);
 
-        const config = {
+            return {
             data,
             filters: {},
             columns: [
@@ -205,9 +215,6 @@ function initTables() {
                 }
             ]
         };
-        let dataTable = new simpleDatatables.DataTable(elm, config);
-        watchTable(dataTable);
-    });
 }
 
 function watchTable(dataTable) {
@@ -255,7 +262,8 @@ function watchCells(table) {
         input.addEventListener('input', async (e) => {
             const attr = table.querySelectorAll('th')[input.cellIndex].innerText;
             const value = input.innerText;
-            const url = updateUrl + '/' + input.parentElement.getAttribute('data-row');
+            const uuid = input.parentElement.getAttribute('data-row');
+            const url = (uuid === updateUrl.split('/')[4]) ? updateUrl : updateUrl + '/' + uuid;
             addMessage(await update(attr, value, url));
         });
     });

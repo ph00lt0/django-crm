@@ -8,9 +8,12 @@
 {% block content %}
     <table data-table data-url="{% url 'accounting:invoice-detail' uuid %}" data-row-link-base="#">
     </table>
+    <table data-table data-table-items data-url="{% url 'accounting:invoice-detail' uuid %}" data-row-link-base="#">
+    </table>
+
     <section data-update-form>
         <span data-url="{% url 'accounting:invoice-detail' uuid %}"></span>
-        {% csrf_token %}
+        <h2>Add item</h2>
         <select data-item-pk data-choices data-url="{% url 'accounting:item-api' %}">
             <option value="">Select item</option>
             {% for item in items %}

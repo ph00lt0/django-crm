@@ -9,7 +9,11 @@
 {#data-update-item-url="{% url 'accounting:bill-item' %}"#}
     <table data-table data-url="{% url 'accounting:bill-detail' uuid %}"  data-row-link-base="#">
     </table>
+    <table data-table data-table-items data-url="{% url 'accounting:bill-detail' uuid %}" data-row-link-base="#">
+    </table>
+
     <section data-update-form>
+        <h2>Add item</h2>
         <span data-url="{% url 'accounting:bill-detail' uuid %}"></span>
         {% csrf_token %}
         <select data-item-pk data-choices data-url="{% url 'accounting:item-api' %}">

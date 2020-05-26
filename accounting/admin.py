@@ -16,3 +16,4 @@ admin.site.register(InvoiceItem)
 admin.site.register(InvoiceViewed)
 admin.site.register(InvoiceSent)
 admin.site.register(Item)
+

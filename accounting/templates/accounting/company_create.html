@@ -7,6 +7,9 @@
 
 {% block content %}
     <section>
+        <h2>Create your company</h2>
+        <p>We need this information to proceed</p>
+
         <form method="POST" action="{% url 'accounting:company_create' %}">
             {% csrf_token %}
             <input type="text" name="name" placeholder="Name">

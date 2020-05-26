@@ -11,6 +11,7 @@
     </table>
 
     <section data-create-form>
+        <h2>Create bill</h2>
         <span data-url="{% url 'accounting:bill-list' %}"></span>
         {% csrf_token %}
         <input data-field type="text" name="date" placeholder="Date">

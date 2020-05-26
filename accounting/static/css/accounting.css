@@ -1,19 +1,38 @@
 input {
     display: block;
-    padding: 0.2rem;
+    padding: 0.3rem;
     font-size: 0.8rem;
     margin-bottom: 0.5rem;
-    width: 20.2rem;
-    height: 2em;
+    width: 20rem;
+    height: 2rem;
 }
 
 .choices {
     width: 20rem;
     margin-right: 1em;
+    font-size: 1rem
 }
 
 .choices__inner {
-    min-height: 1em;
+    min-height: 2rem;
+    padding: 0.4rem;
+    background: none;
+}
+
+.choices__inner .choices__item {
+    margin-top: 0.6rem
+}
+
+.is_open .choices__inner, .choices__inner {
+    border-radius: 0;
+}
+
+.choices__list {
+    padding: 0;
+}
+
+button {
+    min-width: 5rem;
 }
 
 @media screen and (min-width: 700px) {

@@ -10,6 +10,7 @@
     <title>Accounting - {% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static "library/choices/choices.css" %}">
     <link rel="stylesheet" href="https://unpkg.com/vanilla-datatables@1.6.16/dist/vanilla-dataTables.min.css">
+    <link rel="stylesheet" href="{% static "css/accounting.css" %}">
 </head>
 <body>
 <ul class="messages" data-messages>
@@ -79,7 +80,6 @@
 <script src="{% static "library/choices/choices.js" %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 <script src="{% static "js/app.js" %}"></script>
-<script src="{% static "js/create.js" %}"></script>
 {% block scripts %}
 {% endblock %}
 

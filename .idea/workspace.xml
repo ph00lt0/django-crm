@@ -2,16 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="53c90dba-58cb-4648-8b55-d989904313f5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/accounting/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/static/js/create.js" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/static/js/create.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/templates/accounting/bill.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/templates/accounting/bill.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/accounting/static/css/accounting.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounting/static/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/static/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounting/static/js/create.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounting/templates/accounting/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/templates/accounting/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounting/templates/accounting/bills.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/templates/accounting/bills.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/templates/accounting/clients.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/templates/accounting/clients.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/templates/accounting/company_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/templates/accounting/company_create.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/templates/accounting/invoice.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/templates/accounting/invoice.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounting/templates/accounting/invoices.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/templates/accounting/invoices.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/templates/accounting/items.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/templates/accounting/items.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/templates/accounting/vendors.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/templates/accounting/vendors.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,7 +38,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/accounting/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1714">
+            <state relative-caret-position="2273">
               <caret line="231" selection-start-line="231" selection-end-line="231" />
               <folding>
                 <element signature="e#0#66#0" expanded="true" />
@@ -50,52 +47,56 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/accounting/static/css/accounting.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="299">
+              <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/accounting/static/js/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="368">
+              <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/base.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="299">
+              <caret line="13" column="7" lean-forward="true" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/bills.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+            <state relative-caret-position="424">
+              <caret line="32" column="50" lean-forward="true" selection-start-line="32" selection-start-column="50" selection-end-line="32" selection-end-column="50" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/bill.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="299">
-              <caret line="13" column="4" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
+              <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/accounting/static/js/create.js">
+        <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/invoices.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="549">
-              <caret line="148" column="49" lean-forward="true" selection-start-line="148" selection-start-column="49" selection-end-line="148" selection-end-column="49" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/client.html">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/clients.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/vendors.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
+            <state relative-caret-position="287">
+              <caret line="23" column="29" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -141,7 +142,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ata-choices-client</find>
       <find>invoice</find>
       <find>client</find>
       <find>vendor</find>
@@ -171,6 +171,7 @@
       <find>currency</find>
       <find>print</find>
       <find>bank</find>
+      <find>row</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -182,7 +183,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/accounting/decorators.py" />
         <option value="$PROJECT_DIR$/accounting/apii.py" />
         <option value="$PROJECT_DIR$/accounting/static/js/client.js" />
         <option value="$PROJECT_DIR$/accounting/static/js/item.js" />
@@ -211,9 +211,7 @@
         <option value="$PROJECT_DIR$/crm/.env" />
         <option value="$PROJECT_DIR$/accounting/signals.py" />
         <option value="$PROJECT_DIR$/accounting/tasks.py" />
-        <option value="$PROJECT_DIR$/accounting/templates/accounting/base.html" />
         <option value="$PROJECT_DIR$/accounting/permissions.py" />
-        <option value="$PROJECT_DIR$/accounting/static/js/app.js" />
         <option value="$PROJECT_DIR$/accounting/middleware.py" />
         <option value="$PROJECT_DIR$/accounting/urls.py" />
         <option value="$PROJECT_DIR$/accounting/api.py" />
@@ -224,15 +222,18 @@
         <option value="$PROJECT_DIR$/crm/example.env" />
         <option value="$PROJECT_DIR$/readme.md" />
         <option value="$PROJECT_DIR$/accounting/admin.py" />
-        <option value="$PROJECT_DIR$/accounting/templates/accounting/invoices.html" />
         <option value="$PROJECT_DIR$/accounting/templates/accounting/items.html" />
-        <option value="$PROJECT_DIR$/accounting/templates/accounting/bills.html" />
         <option value="$PROJECT_DIR$/accounting/templates/accounting/clients.html" />
         <option value="$PROJECT_DIR$/accounting/templates/accounting/vendors.html" />
         <option value="$PROJECT_DIR$/accounting/templates/accounting/company_create.html" />
         <option value="$PROJECT_DIR$/accounting/templates/accounting/invoice.html" />
-        <option value="$PROJECT_DIR$/accounting/static/js/create.js" />
         <option value="$PROJECT_DIR$/accounting/templates/accounting/bill.html" />
+        <option value="$PROJECT_DIR$/accounting/static/js/create.js" />
+        <option value="$PROJECT_DIR$/accounting/static/js/app.js" />
+        <option value="$PROJECT_DIR$/accounting/templates/accounting/base.html" />
+        <option value="$PROJECT_DIR$/accounting/templates/accounting/invoices.html" />
+        <option value="$PROJECT_DIR$/accounting/templates/accounting/bills.html" />
+        <option value="$PROJECT_DIR$/accounting/static/css/accounting.css" />
       </list>
     </option>
   </component>
@@ -271,6 +272,13 @@
               <item name="crm" type="462c0819:PsiDirectoryNode" />
               <item name="accounting" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="crm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="crm" type="462c0819:PsiDirectoryNode" />
+              <item name="accounting" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -285,11 +293,6 @@
               <item name="accounting" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="accounting" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="crm" type="b2602c69:ProjectViewProjectNode" />
-              <item name="crm" type="462c0819:PsiDirectoryNode" />
-              <item name="crm" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="crm" type="b2602c69:ProjectViewProjectNode" />
@@ -397,12 +400,12 @@
       <workItem from="1589806933409" duration="35450000" />
       <workItem from="1589993930182" duration="26361000" />
       <workItem from="1590072503744" duration="5880000" />
-      <workItem from="1590489537835" duration="12401000" />
+      <workItem from="1590489537835" duration="14660000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="336739000" />
+    <option name="totallyTimeSpent" value="338998000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="1057" extended-state="0" />
@@ -465,13 +468,6 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.env" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/accounting/templates/public_accounting/invoice.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/accounting/apps.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="69">
@@ -625,24 +621,10 @@
     <entry file="file://$PROJECT_DIR$/accounting/utils.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="566">
-          <caret line="49" column="64" selection-start-line="49" selection-start-column="64" selection-end-line="49" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/accounting/permissions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/accounting/static/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -813,22 +795,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/accounting/static/js/client.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="23" column="43" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/client.html">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/invoices.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" column="19" lean-forward="true" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/company_create.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -839,7 +807,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/accounting/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1714">
+        <state relative-caret-position="2273">
           <caret line="231" selection-start-line="231" selection-end-line="231" />
           <folding>
             <element signature="e#0#66#0" expanded="true" />
@@ -847,17 +815,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/bills.html">
+    <entry file="file://$PROJECT_DIR$/accounting/static/js/create.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/bill.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
-          <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/accounting/static/js/create.js">
+    <entry file="file://$PROJECT_DIR$/accounting/static/js/client.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="549">
-          <caret line="148" column="49" lean-forward="true" selection-start-line="148" selection-start-column="49" selection-end-line="148" selection-end-column="49" />
+        <state relative-caret-position="529">
+          <caret line="23" column="43" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/accounting/static/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="13" column="7" lean-forward="true" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -868,10 +853,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/bill.html">
+    <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/invoices.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="23" column="29" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/accounting/templates/accounting/bills.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="424">
+          <caret line="32" column="50" lean-forward="true" selection-start-line="32" selection-start-column="50" selection-end-line="32" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/accounting/static/css/accounting.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
-          <caret line="13" column="4" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
         </state>
       </provider>
     </entry>

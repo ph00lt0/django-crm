@@ -1,16 +1,25 @@
+body {
+    font-family: sans-serif;
+}
+
 input {
     display: block;
     padding: 0.3rem;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     margin-bottom: 0.5rem;
     width: 20rem;
     height: 2rem;
 }
 
+
+td {
+    line-height: 2em;
+}
+
 .choices {
     width: 20rem;
     margin-right: 1em;
-    font-size: 1rem
+    font-size: 0.8rem;
 }
 
 .choices__inner {

@@ -13,18 +13,22 @@
     <link rel="stylesheet" href="{% static "css/accounting.css" %}">
 </head>
 <body>
+<nav>
+    <ul>
+        <li>
+            <a href="{% url 'login:logout' %}">Log out</a>
+        </li>
+    </ul>
+</nav>
 <ul class="messages" data-messages>
     {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-        {{ message }}
-    </li>
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+        </li>
     {% endfor %}
 </ul>
-<nav>
-    <li>
-        <a href="{% url 'login:logout' %}">Log out</a>
-    </li>
-</nav>
+
+<div class="page">
 <aside>
     <ul>
         <li>
@@ -44,7 +48,7 @@
 
         <li>Transaction
             <ul>
-                 <li>
+                <li>
                     <a href="{% url "accounting:invoices" %}">Invoices</a>
                 </li>
                 <li>
@@ -76,6 +80,7 @@
     {% block content %}
     {% endblock %}
 </main>
+</div>
 
 <script src="{% static "library/choices/choices.js" %}"></script>
 <script src="{% static "library/simple-datatables/simple-datatables.js" %}"></script>

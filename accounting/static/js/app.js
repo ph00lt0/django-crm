@@ -226,7 +226,7 @@ function getTableConfig(tableData) {
                     select: 0, render: function (data, cell, row) {
                         cell.setAttribute('contenteditable', false);
                         cell.removeAttribute('clickable');
-                        return "<button data-delete>🗑</button>"
+                        return "<button class='icon' data-delete>🗑</button>"
                     }
                 },
                 {

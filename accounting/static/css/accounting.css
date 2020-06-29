@@ -1,5 +1,7 @@
 body {
     font-family: sans-serif;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
 }
 
 input {
@@ -7,17 +9,61 @@ input {
     padding: 0.3rem;
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
-    width: 20rem;
-    height: 2rem;
+    width: 15rem;
+    height: 2em;
 }
 
+div.page {
+    display: grid;
+    top: 0;
+    grid-template-columns: 1fr 4fr;
+}
+
+main {
+    margin-top: 3em;
+    min-height: 100vh;
+}
+
+aside {
+    background: #26618a;
+    color: white;
+    font-weight: bold;
+    position: sticky;
+    top: 3em;
+    height: calc(100vh - 3em);
+    box-sizing: border-box;
+}
+
+aside li {
+    list-style: none;
+    margin-right: 1em;
+    margin-left: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+aside li a {
+    color: white;
+    font-weight: normal;
+    text-decoration: none;t
+}
+
+
+form, section, .dataTable-wrapper {
+    margin: 2em;
+    padding: 1em;
+    border-radius: 20px;
+    -webkit-box-shadow: 14px 14px 31px 21px rgba(237, 237, 237, 1);
+    -moz-box-shadow: 14px 14px 31px 21px rgba(237, 237, 237, 1);
+    box-shadow: 14px 14px 31px 21px rgba(237, 237, 237, 1);
+}
 
 td {
     line-height: 2em;
 }
 
 .choices {
-    width: 20rem;
+    width: 15rem;
     margin-right: 1em;
     font-size: 0.8rem;
 }
@@ -42,13 +88,53 @@ td {
 
 button {
     min-width: 5rem;
+    height: 3em;
+    background: #26618a;
+    color: white;
+    border-radius: 20px;
+    border: none;
+}
+
+button.add, button.icon {
+    background: white;
+    color: #26618a;
+    border: 1px solid #26618a;
+}
+
+button.icon {
+    min-width: 3em;
+    max-width: 3em;
+    text-align: center;
+}
+
+nav {
+    position: fixed;
+    background: #26618a;
+    width: 100vw;
+    top: 0;
+    display: grid;
+}
+
+nav ul, aside ul {
+    margin: 0;
+    margin-left: auto;
+    padding-left: 0;
+}
+
+nav li {
+    list-style: none;
+    padding: 1em;
+}
+
+nav a {
+    color: white;
 }
 
 @media screen and (min-width: 700px) {
     .row {
         display: grid;
         grid-template-areas: "a a a a";
-        grid-gap: 1rem;
+        grid-gap: 0.5em;
     }
 }
 

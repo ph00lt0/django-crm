@@ -50,7 +50,7 @@ function get(url) {
     }).then(response => response.json()).catch(error => error.json())
 }
 
-function initCreateForm() {
+function initCreateForm(dataTable) {
     document.querySelectorAll('[data-create-form]').forEach((form) => {
         watchItems(form);
         const url = form.querySelector('[data-url]').getAttribute('data-url');
@@ -83,12 +83,13 @@ function initCreateForm() {
             if (Object.keys(items).length > 0) dataForm['items'] = items;
             if (Object.keys(details).length > 0) dataForm['details'] = details;
             addMessage(await post(JSON.stringify(dataForm), url));
+            location.reload()
         });
     });
 }
 
 // update forms are to add items to existing invoices and bills
-function initUpdateForm() {
+function initUpdateForm(dataTable) {
     document.querySelectorAll('[data-update-form]').forEach((form) => {
         watchItems(form);
         const base = form.querySelector('[data-url]').getAttribute('data-url');
@@ -101,9 +102,15 @@ function initUpdateForm() {
                 dataForm[field.getAttribute('name')] = field.value;
             });
             addMessage(await post(JSON.stringify(dataForm), url));
+            location.reload()
         });
     });
 }
+
+// function addRow(dataTable, data) {
+//     console.log(data);
+//     dataTable.rows().add(data)
+// }
 
 function watchItems(form) {
     if (!form.querySelector('[data-add-sub-row]')) return;
@@ -186,6 +193,8 @@ function initTables() {
         const config = getTableConfig(response);
         let dataTable = new simpleDatatables.DataTable(elm, config);
         watchTable(dataTable);
+        initCreateForm(dataTable);
+        initUpdateForm(dataTable);
 
         if (response.items) {
             const config = getTableConfig(response.items);
@@ -294,8 +303,6 @@ function makeRowLink(table) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    initCreateForm();
-    initUpdateForm();
     initTables();
     document.querySelectorAll('[data-choices]').forEach((selector) => {
         initChoices(selector);

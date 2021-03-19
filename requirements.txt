@@ -4,7 +4,7 @@ billiard==3.6.3.0
 celery==4.4.2
 Django==3.1.6
 django-rest-auth==0.9.5
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 drfpasswordless==1.5.3
 importlib-metadata==1.6.0
 kombu==4.6.8
